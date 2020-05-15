@@ -1,0 +1,57 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Knowledge and Skill' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_skill_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.skills.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Description' %}</th>
+      <th class="border-0"></th>
+      <th class="border-0 center-align">{% trans 'Level' %}</th>
+      {% if is_mine %}
+        <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.skills.all as items %}
+      {% for item in items %}
+        <tr>
+          <td class="pl-3">{{ item.name }}</td>
+          <td>{% firstof item.description '-' %}</td>
+          <td width="125">
+            <div class="progress" style="height: 4px; margin-top: .45rem;">
+              <div role="progressbar"
+                   style="width: {{ item.percent }}%;"
+                   aria-valuenow="item.level"
+                   aria-valuemin="0"
+                   aria-valuemax="10"
+                   class="progress-bar bg-green"></div>
+            </div>
+          </td>
+          <td class="center-align">{{ item.level }}</td>
+          {% if is_mine %}
+            {% include 'profile/includes/action_buttons.html' %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  {% trans 'skill' as model_name %}
+    {% include 'profile/includes/empty_table.html' with model_name=model_name %}
+  {% endif %}
+{% endblock %}

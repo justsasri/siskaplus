@@ -1,0 +1,162 @@
+{% extends 'account/base.html' %}
+{% load i18n static %}
+
+{% block extra_css %}
+  {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block content_main %}
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <section class="dashboard-counts pt-0 pb-3">
+        <div class="statistic d-flex align-items-center bg-white has-shadow">
+          <div class="text"><strong>3.21</strong><br>
+            <small>IPK</small>
+          </div>
+        </div>
+        <div class="statistic d-flex align-items-center bg-white has-shadow">
+          <div class="text"><strong>79 / 146</strong><br>
+            <small>SKS Lulus</small>
+          </div>
+        </div>
+        <div class="statistic d-flex align-items-center bg-white has-shadow">
+          <div class="text"><strong>147</strong><br>
+            <small>Forwards</small>
+          </div>
+        </div>
+        <div class="statistic d-flex align-items-center bg-white has-shadow">
+          <div class="text"><strong>Alumni</strong><br>
+            <small>Status</small>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <div>
+          <h3 class="h4 mb-2">{% trans "Student Accounts" %}</h3>
+          <div>{% trans 'The following students are associated with your account:' %}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="p-4">
+          <p class="small">{% trans 'You can have several students with your account.' %}</p>
+          <form action="{% url 'account_student_set_primary' %}" class="email_list" method="post">
+            {% csrf_token %}
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th width="150">NPM</th>
+                  <th width="300">Program Study</th>
+                  <th>Angkatan</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for student in user.students.all %}
+                  <tr>
+                    <td>
+                      <div class="i-checks">
+                        <input
+                            id="student_radio_{{ forloop.counter }}"
+                            type="radio"
+                            {% if student.primary or user.students.count == 1 %}checked="checked"{% endif %}
+                            value="{{ student.id }}"
+                            name="student"
+                            class="radio-template">
+                        <label for="student_radio_{{ forloop.counter }}">{{ student.student_id }}
+                          {% if student.primary %}
+                            <span class="badge badge-success" style=" position: absolute; margin-top: 2px; margin-left: 5px;">
+                              {% trans "Primary" %}
+                            </span>
+                          {% endif %}
+                        </label>
+                      </div>
+                    </td>
+                    <td>{{ student.rmu }}</td>
+                    <td>{{ student.year_of_force }}</td>
+                    <td>{{ student.get_status_display }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary mr-2" type="submit" name="action_primary">{% trans 'Set as Primary' %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <form class="form-inline">
+        <div class="form-group mr-3">
+          <label for="inlineFormInput" class="sr-only">Name</label>
+          <input id="inlineFormInput" type="text" placeholder="Jane Doe" class="form-control">
+        </div>
+        <div class="form-group mr-3">
+          <label for="account" class="sr-only">Name</label>
+          <select id="account" name="account" class="form-control">
+            <option>Semester 1</option>
+            <option>option 2</option>
+            <option>option 3</option>
+            <option>option 4</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary mr-2">{% trans 'Filter Score' %}</button>
+          <button type="submit" class="btn btn-primary">{% trans 'Show All' %}</button>
+        </div>
+      </form>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">Nama MK</th>
+            <th class="border-0" width="100" scope="col">Kode</th>
+            <th class="border-0 text-center" width="100" scope="col">Semester</th>
+            <th class="border-0 text-center" width="100" scope="col">SKS</th>
+            <th class="border-0 text-center" width="50" scope="col">Angka</th>
+            <th class="border-0 text-center" width="50" scope="col">Huruf</th>
+            <th class="border-0 pr-4" width="30" scope="col">Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for item in user.primary_student.get_scores %}
+          <tr>
+            <td class="pl-4" scope="row">
+              <a href="{% url 'academic_course_inspect' item.course.id %}">
+                {{ item.name }}</a>
+            </td>
+            <td>{{ item.old_code }}</td>
+            <td class="text-center">{{ item.semester_number }}</td>
+            <td class="text-center">{{ item.total }}</td>
+            <td class="text-center">{% firstof item.numeric '-' %}</td>
+            <td class="text-center">{% firstof item.alphabetic '-' %}</td>
+            <td class="pr-4">
+                  <span class="badge badge-{{ item.score_classname }} small">
+                    {{ item.score_status }}
+                  </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<header class="profile__header">
+  <div class="container-fluid">
+    <div class="pt-3 pb-3 d-flex justify-content-between">
+      {% include 'profile/includes/social_contact.html' with instance=user.person %}
+      <div class="profile__header dropdown">
+        <a
+            href="#record_action__{{ item.id }}"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            class="dropdown-toggle">
+          {% trans 'Manage' %}
+        </a>
+        <div aria-labelledby="record_action__{{ item.id }}" class="dropdown-menu dropdown-menu-right has-shadow">
+          <a class="dropdown-item" href="{% url 'public_profile' username=user.username %}"> {% trans 'Profile' %} </a>
+          <a class="dropdown-item" href="{% url 'account_manage' %}"> {% trans 'Personal' %} </a>
+          <a class="dropdown-item" href="{% url 'account_contact_update' %}"> {% trans 'Contacts' %} </a>
+          <a class="dropdown-item" href="{% url 'account_socialmedia_update' %}"> {% trans 'Social Media' %} </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pt-2 pb-3">
+    <div class="avatar">
+      <a href="{% url 'public_profile' username=user.username %}">
+        <img src="{{ user.gravatar }}" class="img-fluid rounded-circle">
+      </a>
+      <div class="title">
+        <h1 class="h4">{{ user }}</h1>
+        {% trans 'Nothing to say ?' as nothing %}
+        <p>"{% firstof user.person.about_me nothing %}"</p>
+        <span class="small">@{{ user.username }}</span>
+      </div>
+    </div>
+  </div>
+</header>

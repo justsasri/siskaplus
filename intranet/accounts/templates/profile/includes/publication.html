@@ -1,0 +1,48 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Publication' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_publication_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.awards.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Title' %}</th>
+      <th class="border-0">{% trans 'Publisher' %}</th>
+      <th class="border-0">{% trans 'Published Date' %}</th>
+      {% if is_mine %}
+        <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.publications.all as pubs %}
+      {% for item in pubs %}
+        <tr>
+          <td class="pl-3"><strong>{{ item.title }}</strong>
+            <div>{% firstof item.description '-' %}</div>
+          </td>
+          <td>{% firstof item.publisher '-' %}</td>
+          <td>{{ item.date_published }}</td>
+          {% if is_mine %}
+            {% include 'profile/includes/action_buttons.html' %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  {% trans 'publication' as model_name %}
+    {% include 'profile/includes/empty_table.html' with model_name=model_name %}
+  {% endif %}
+{% endblock %}

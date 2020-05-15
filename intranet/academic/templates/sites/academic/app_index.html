@@ -1,0 +1,81 @@
+{% extends 'sites/academic/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb %}{% endblock %}
+
+{% block page_title_wrapper %}
+<div class="col-12">
+  <div class="text-white text-center pt-3 pb-3">
+    <i class="display-4 mdi mdi-school"></i>
+    <h1 class="display-4">
+      {% trans 'academic index' as title_text %} {{ title_text | upper }}
+    </h1>
+    <p class="text-center">Nourishing Global Technopreneur</p>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block content_container %}
+  <div class="course-slider mb-4">
+    <div class="text-center">
+      <h2 class="display-5">
+        {% trans 'active courses' as active_courses_text %}{{ active_courses_text | title }}</h2>
+      <p>
+        {% blocktrans %}Currently we have {{ courses_count }} courses available{% endblocktrans %}
+        <a href="{% url 'academic_course_index' %}">{% trans 'Explore Now' %}</a>
+      </p>
+    </div>
+    <div class="row">
+      {% for course in courses %}
+        {% include 'sites/academic/course/snippet.html' with instance=course col=4 %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="curriculum-slider mb-4">
+    <div class="text-center">
+      <h2 class="display-5">
+        {% trans 'active curriculums' as active_curriculums_text %}{{ active_curriculums_text | title }}</h2>
+      <p>
+        {% blocktrans %}Currently we have {{ curriculums_count }} curriculums available {% endblocktrans %}
+        <a href="{% url 'academic_curriculum_index' %}">{% trans 'Explore Now' %}</a>
+      </p>
+    </div>
+    <div class="row">
+      {% for curriculum in curriculums %}
+        {% include 'sites/academic/curriculum/snippet.html' with instance=curriculum col=4 summary_length=60 %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block content_after %}
+  <div class="jumbotron jumbotron-fluid bg-white mt-5 mb-0 border-0 pt-5 pb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 mb-3 text-center">
+          <h1 class="display-5">
+            {% trans 'our teachers' as title_text %} {{ title_text | upper }}
+          </h1>
+          <p>{% trans 'Owesome peoples are here ..' %}</p>
+        </div>
+        <div class="col-12 col-md-8">
+          <div class="row">
+            {% for teacher in top_teachers %}
+              <div class="col-3 col-md-2 mb-3">
+                {% if teacher.person.account %}
+                  <span class="avatar rounded-circle">
+                  <img src="{{ teacher.get_gravatar_url }}" class="img-fluid" alt="{{ teacher.person }}"/>
+                </span>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <a class="btn btn-light" href="{% url 'academic_teacher_index' %}">{% trans 'Show More' %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

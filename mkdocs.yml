@@ -1,0 +1,22 @@
+site_name: DJ Documentations
+site_dir: 'docs_site'
+dev_addr: '127.0.0.1:8001'
+nav:
+  - Home: index.md
+  - User Guide:
+      - Account: 'guides/account.md'
+      - Profile: 'guides/profile.md'
+      - Academic: 'guides/academic.md'
+  - Developments:
+      - Academic: 'documents/academic.md'
+  - About: about.md
+theme:
+  name: material
+  feature:
+    tabs: true
+  social:
+    - type: github
+      link: https://github.com/squidfunk
+plugins:
+  - search
+  - pdf-export

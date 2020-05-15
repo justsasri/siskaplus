@@ -1,0 +1,77 @@
+{% load i18n widget_tweaks %}
+<form action="{% url 'academic_student_index' %}" method="get" id="StudentFilterForm">
+
+  <div class="sidebar__widget ">
+    <div class="form-group">
+      {% trans 'Student name' as placeholder %}
+      {% render_field filter.form.fullname class="form-control" placeholder=placeholder %}
+    </div>
+    <button type="submit" class="btn btn-block btn-primary">{% trans 'Filter' %}</button>
+    <a href="{% url 'academic_student_index' %}" class="btn btn-block btn-danger mt-2">{% trans 'Clear' %}</a>
+  </div>
+
+  <div class="sidebar">
+
+    <div class="sidebar__widget sidebar__widget--collapsible">
+      <a class="collapse__button"
+         href="#sidebar__widget__collapse__{{ filter.form.status.name }}"
+         role="button"
+         data-toggle="collapse"
+         aria-expanded="true"
+         aria-controls="{{ filter.form.status.name }}">
+        {{ filter.form.status.label | title }}
+      </a>
+      <div id="sidebar__widget__collapse__{{ filter.form.status.name }}"
+           aria-labelledby="heading_{{ filter.form.status.name }}"
+           class="collapse collapse__content show">
+        <ul>
+          {% for choice in filter.form.status %}
+          <li>{{ choice.tag }}<span class="checkbox_label">{{ choice.choice_label }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar__widget sidebar__widget--collapsible">
+      <a class="collapse__button collapsed"
+         href="#sidebar__widget__collapse__{{ filter.form.rmu.name }}"
+         role="button"
+         data-toggle="collapse"
+         aria-expanded="false"
+         aria-controls="{{ filter.form.rmu.name }}">
+        {{ filter.form.rmu.label | title }}
+      </a>
+      <div id="sidebar__widget__collapse__{{ filter.form.rmu.name }}"
+           class="collapse collapse__content"
+           aria-labelledby="heading_{{ filter.form.rmu.name }}">
+        <ul>
+          {% for choice in filter.form.rmu %}
+          <li>{{ choice.tag }}<span class="checkbox_label">{{ choice.choice_label }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar__widget sidebar__widget--collapsible">
+      <a class="collapse__button collapsed"
+         href="#sidebar__widget__collapse__{{ filter.form.year_of_force.name }}"
+         role="button"
+         data-toggle="collapse"
+         aria-expanded="false"
+         aria-controls="{{ filter.year_of_force.status.name }}">
+        {{ filter.form.year_of_force.label | title }}
+      </a>
+      <div id="sidebar__widget__collapse__{{ filter.form.year_of_force.name }}"
+           class="collapse collapse__content"
+           aria-labelledby="heading_{{ filter.form.year_of_force.name }}">
+        <ul>
+          {% for choice in filter.form.year_of_force %}
+          <li>{{ choice.tag }}<span class="checkbox_label">{{ choice.choice_label }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</form>

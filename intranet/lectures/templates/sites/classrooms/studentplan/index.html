@@ -1,0 +1,101 @@
+{% extends 'sites/classrooms/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item active" aria-current="page">{% trans 'Student Plan' %}</li>
+{% endblock %}
+
+{% block page_title %}
+<h1 class="mb-4">{% trans 'Student Plan' %}</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block content_sidebar %}{% endblock %}
+
+{% block content_main_class %}col-md-9{% endblock %}
+{% block content_main %}
+  <div class="row mb-3">
+    <div class="col-12 col-md-12">
+      <div class="row">
+        <div class="col-6">
+          <p>
+            {% trans 'Credit' %}: {{ user.primary_student.enrollment_plans_total_credit }}/18 SKS {% trans 'from' %}
+            {{ lectures.count }} {% trans 'lectures' %}
+          </p>
+        </div>
+        <div class="col-6 text-right">
+          <span class="mdi mdi-help-circle-outline"></span> <a href="#">{% trans 'Need help ?' %}</a>
+        </div>
+      </div>
+    </div>
+    {% with lectures as results %}
+      {% if results %}
+        {% for item in results %}
+          {% with item.lecture as instance %}
+            <div class="col-12 mb-3">
+              <div class="card">
+                <div class="card-header p-0 border-0">
+                  <div class="card-options">
+                    <a href="{% url 'classrooms_studentplan_remove' instance_pk=item.id %}">
+                      <i class="mdi mdi-trash-can-outline icon-button"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title"><a href="{{ instance.get_absolute_url }}">{{ instance }}</a></h3>
+                  {% trans 'By' %} {{ instance.teacher }}
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex">
+                    <div>
+                      <div class="mr-2 d-inline-block">
+                        <i class="mdi mdi-school"></i>
+                        Semester {{ instance.curriculum_course.semester_number }}
+                      </div>
+                      <div class="mr-2 d-inline-block"><i class="mdi mdi-door-open"></i> {{ instance.room }}</div>
+                      <div class="mr-2 d-inline-block">
+                        <i class="mdi mdi-arrow-right-drop-circle-outline"></i>
+                        {{ instance.duration }} x {{ instance.series }} {% trans 'series' %}
+                      </div>
+                      <div class="mr-2 d-inline-block">
+                        <i class="mdi mdi-account-circle-outline"></i>
+                        {{ instance.get_enrolled_students.count }}/{{instance.max_capacity }} students
+                      </div>
+                    </div>
+                    <div>
+                      <strong class="mr-2 p-2">{{ instance.curriculum_course.course.total }} SKS</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      {% else %}
+        <div class="col-12 mb-3">
+          <div class="border p-3 pt-4 mb-3 text-center bg-white">
+            <h3>{% trans 'Your plan is empty !' %}</h3>
+            <p>{% trans 'Currently no lecture in your plan. ' %}
+              <a href="{% url 'classrooms_lecture_index' %}">{% trans 'why not add one?' %}</a>
+            </p>
+          </div>
+        </div>
+      {% endif %}
+    {% endwith %}
+    <div class="col-12 col-md-12 mb-3">
+      <div class="row">
+        <div class="col-5">
+          <a href="" class="btn btn-success">{% trans 'Create Enrollment' %}</a>
+        </div>
+        <div class="col-7 text-right">
+          <a href="{% url 'classrooms_lecture_index' %}" class="btn btn-primary">
+            {% trans 'Add more' %}
+          </a>
+          <a href="{% url 'classrooms_studentplan_clean' %}" class="btn btn-danger">
+            {% trans 'Clear All' %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+<div class="sidebar-header text-center">
+  <div class="avatar" style="margin: 1rem auto">
+    <a href="{% url 'public_profile' username=user.username %}">
+      <img src="{{ user.gravatar }}" alt="..." class="img-fluid rounded-circle">
+    </a>
+  </div>
+  <div class="title">
+    <h1 class="h4">{{ user }}</h1>
+    <p>{{ user.primary_email }}</p>
+  </div>
+</div>

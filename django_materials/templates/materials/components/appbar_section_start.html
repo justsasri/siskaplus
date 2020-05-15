@@ -1,0 +1,14 @@
+{% extends 'materials/components/appbar_section.html' %}
+
+{% block appbar_section_align %}start{% endblock %}
+
+{% block appbar_section_classes %}{% endblock %}
+
+{% block appbar_section_items %}
+  {% if contextual %}
+    <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Close">close</button>
+  {% else %}
+    <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+  {% endif %}
+  <span class="mdc-top-app-bar__title">{{ page_title }}</span>
+{% endblock %}

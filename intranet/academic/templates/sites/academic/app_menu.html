@@ -1,0 +1,30 @@
+{% load i18n %}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle mdi mdi-graduation-cap" href="#" id="dropdownAcademic"
+     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="mdi mdi-school mr-1"></i> {% trans 'Academic' %}
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownAcademic">
+    <a class="dropdown-item" href="{% url 'academic_app_index' %}">
+      <i class="mdi mdi-view-dashboard mr-1"></i> {% trans 'Dashboard' %}
+    </a>
+    <a class="dropdown-item" href="{% url 'academic_course_index' %}">
+      <i class="mdi mdi-book-open-variant mr-1"></i> {% trans 'Course' %}
+    </a>
+    <a class="dropdown-item" href="{% url 'academic_curriculum_index' %}">
+      <i class="mdi mdi-school mr-1"></i> {% trans 'Curriculum' %}
+    </a>
+    <a class="dropdown-item" href="{% url 'academic_teacher_index' %}">
+      <i class="mdi mdi-account-tie mr-1"></i> {% trans 'Teacher' %}
+    </a>
+    <a class="dropdown-item" href="{% url 'academic_student_index' %}">
+      <i class="mdi mdi-account-heart mr-1"></i> {% trans 'Student' %}
+    </a>
+    {% if perms.global_permission.access_academic_admin %}
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="{% url 'academic_admin:index' %}">
+      <i class="mdi mdi-view-dashboard mr-1"></i> {% trans 'Admin' %}
+    </a>
+    {% endif %}
+  </div>
+</li>

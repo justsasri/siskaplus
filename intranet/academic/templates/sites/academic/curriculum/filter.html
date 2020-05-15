@@ -1,0 +1,37 @@
+{% load i18n widget_tweaks %}
+<form action="{% url 'academic_curriculum_index' %}" method="get" id="CurriculumFilterForm">
+
+  <div class="sidebar__widget">
+    <div class="form-group">
+      {% trans 'Curriculum name' as curriculum_name_placeholder %}
+      {% render_field filter.form.curriculum_name class="form-control" placeholder=curriculum_name_placeholder %}
+    </div>
+    <button type="submit" class="btn btn-block btn-primary">{% trans 'Filter' %}</button>
+    <a href="{% url 'academic_curriculum_index' %}" class="btn btn-block btn-danger mt-2">{% trans 'Clear' %}</a>
+  </div>
+
+  <div class="sidebar">
+
+    <div class="sidebar__widget sidebar__widget--collapsible">
+      <a class="collapse__button"
+         href="#sidebar__widget__collapse__{{ filter.form.rmu.name }}"
+         role="button"
+         data-toggle="collapse"
+         aria-expanded="true"
+         aria-controls="{{ filter.form.rmu.name }}">
+        {{ filter.form.rmu.label | title }}
+      </a>
+      <div id="sidebar__widget__collapse__{{ filter.form.rmu.name }}"
+           class="collapse collapse__content show"
+           aria-labelledby="heading_{{ filter.form.rmu.name }}">
+        <ul>
+          {% for choice in filter.form.rmu %}
+          <li>{{ choice.tag }}<span class="checkbox_label">{{ choice.choice_label }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</form>

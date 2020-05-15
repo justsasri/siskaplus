@@ -1,0 +1,162 @@
+{% extends 'account/base.html' %}
+{% load i18n static widget_tweaks %}
+
+{% block breadcrumb %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block content_main %}
+<div class="container-fluid mt-4">
+  <div class="{{ self.opts.model_name }} card">
+    {% block card_header %}
+    <div class="card-header d-flex align-items-center">
+      <div>
+        <h3 class="h4 mb-2">{% trans 'Personal Information' %}</h3>
+        <div>{% trans 'This information may be required by academic and human resourse department' %}.</div>
+      </div>
+    </div>
+    {% endblock %}
+    <div class="card-body">
+      <div class="forms p-3">
+        <div class="row mb-5">
+          <div class="col col-md-2">
+            <div class="user-view">
+              <img src="{{ user.gravatar }}" alt="avatar" class="circle" width="125">
+            </div>
+          </div>
+          <div class="col col-md-10">
+            <p>
+              We use <a href="https://gravatar.com/" title="External link" target="_blank" rel="noopener">gravatar.com</a>
+              to generate your profile picture based on your primary email address —
+              <code class="break">{{ user.primary_email }}</code>
+            </p>
+            <a href="{{ user.gravatar_profile }}"
+               target="_blank"
+               class="btn btn-success mt-2">
+              {% trans 'Change Image on Gravatar' %}
+            </a>
+          </div>
+        </div>
+
+        <form action="{% url 'account_manage' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group row">
+            <label for="{{ form.pid.name }}" class="col-sm-3 form-control-label">{{ form.pid.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.pid class="form-control" %}
+              <small class="form-text text-muted">{{ form.pid.help_text }}</small>
+              {{ form.pid.errors }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="{{ form.nickname.name }}" class="col-sm-3 form-control-label">{{ form.nickname.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.nickname class="form-control" %}
+              <small class="form-text text-muted">{{ form.nickname.help_text }}</small>
+              {{ form.nickname.errors }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="{{ form.gender.name }}" class="col-sm-3 form-control-label">{{ form.gender.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.gender class="form-control" %}
+              <small class="form-text text-muted">{{ form.gender.help_text }}</small>
+              {{ form.gender.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.date_of_birth.name }}" class="col-sm-3 form-control-label">{{ form.date_of_birth.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.date_of_birth class="form-control" %}
+              <small class="form-text text-muted">{{ form.date_of_birth.help_text }}</small>
+              {{ form.date_of_birth.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.religion.name }}" class="col-sm-3 form-control-label">{{ form.religion.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.religion class="form-control" %}
+              <small class="form-text text-muted">{{ form.religion.help_text }}</small>
+              {{ form.religion.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.nation.name }}" class="col-sm-3 form-control-label">{{ form.nation.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.nation class="form-control" %}
+              <small class="form-text text-muted">{{ form.nation.help_text }}</small>
+              {{ form.nation.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.about_me.name }}" class="col-sm-3 form-control-label">{{ form.about_me.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.about_me class="form-control" rows=4 %}
+              <small class="form-text text-muted">{{ form.about_me.help_text }}</small>
+              {{ form.about_me.errors }}
+            </div>
+          </div>
+
+          <div class="line"></div>
+
+          <h5>{% trans 'Last education' %}</h5>
+          <p>{% trans 'This information may be required by academic and human resourse department' %}.</p>
+          <div class="form-group row">
+            <label for="{{ form.education_level.name }}" class="col-sm-3 form-control-label">{{ form.education_level.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.education_level class="form-control" %}
+              <small class="form-text text-muted">{{ form.education_level.help_text }}</small>
+              {{ form.education_level.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.year_graduate.name }}" class="col-sm-3 form-control-label">{{ form.year_graduate.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.year_graduate class="form-control" %}
+              <small class="form-text text-muted">{{ form.year_graduate.help_text }}</small>
+              {{ form.year_graduate.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.education_institution.name }}" class="col-sm-3 form-control-label">{{ form.education_institution.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.education_institution class="form-control" %}
+              <small class="form-text text-muted">{{ form.education_institution.help_text }}</small>
+              {{ form.education_institution.errors }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="{{ form.education_name.name }}" class="col-sm-3 form-control-label">{{ form.education_name.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.education_name class="form-control" %}
+              <small class="form-text text-muted">{{ form.education_name.help_text }}</small>
+              {{ form.education_name.errors }}
+            </div>
+          </div>
+          <div class="line"></div>
+
+          <div class="form-group row">
+            <label for="{{ form.privacy.name }}" class="col-sm-3 form-control-label">{{ form.privacy.label }}</label>
+            <div class="col-md-7">
+              {% render_field form.privacy class="form-control" %}
+              <small class="form-text text-muted">{{ form.privacy.help_text }}</small>
+              {{ form.privacy.errors }}
+            </div>
+          </div>
+
+          <div class="form-action form-group row">
+            <div class="col-sm-9 offset-sm-3">
+              <input type="submit" class="btn btn-primary mr-3" value="{% trans 'Save Changes' %}"/>
+              <a href="{% url 'public_profile' username=user.username %}" class="btn btn-default">
+                {% trans 'Cancel' %}
+              </a>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

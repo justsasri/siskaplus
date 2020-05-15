@@ -1,0 +1,43 @@
+{% extends 'includes/navbar.html' %}
+{% load i18n static %}
+
+{% block header_classname %}bg-primary{% endblock %}
+{% block navbar_classname %}navbar-dark{% endblock %}
+
+{% block navbar_brand_url %}{% url 'classrooms_app_index' %}{% endblock %}
+{% block navbar_brand %}
+  <!-- Navbar Brand -->
+  <div class="brand-text d-inline-block" style="font-weight: lighter">
+    <span>Class</span><strong>Rooms</strong>
+  </div>
+{% endblock %}
+
+{% block navbar_button_items %}
+  <a class="nav-icon-button d-lg-none" href="{% url 'classrooms_app_index' %}" data-toggle="tooltip" data-placement="top" title="Index">
+    <i class="mdi mdi-home icon-button rounded-circle"></i>
+  </a>
+  <a class="nav-icon-button d-lg-none" href="{% url 'classrooms_lecture_index' %}" data-toggle="tooltip" data-placement="top" title="My Lectures">
+    <i class="mdi mdi-teach icon-button rounded-circle"></i>
+  </a>
+  <a class="nav-icon-button d-lg-none" href="#" data-toggle="tooltip" data-placement="top" title="My Enrollments">
+    <i class="mdi mdi-clipboard-text-outline icon-button rounded-circle"></i>
+  </a>
+  <a class="nav-icon-button d-lg-none" href="{% url 'classrooms_studentplan_index' %}" data-toggle="tooltip" data-placement="top" title="My Plan">
+    <i class="mdi mdi-clipboard-check-outline icon-button rounded-circle"></i>
+  </a>
+  <a class="nav-icon-button" href="#" data-toggle="tooltip" data-placement="top" title="Guides">
+    <i class="mdi mdi-help-circle-outline icon-button rounded-circle"></i>
+  </a>
+{% endblock %}
+
+{% block navbar_app_menu_items %}
+  <li class="nav-item"><a href="{% url 'classrooms_app_index' %}" class="nav-link">Home</a></li>
+  <li class="nav-item"><a href="{% url 'classrooms_lecture_index' %}" class="nav-link">Lectures</a></li>
+  <li class="nav-item"><a href="#" class="nav-link">Enrollments</a></li>
+  <li class="nav-item"><a href="{% url 'classrooms_studentplan_index' %}" class="nav-link">Plan</a></li>
+  {% if perms.global_permission.access_academic_admin %}
+    <li class="nav-item"><a href="{% url 'academic_admin:index' %}" class="nav-link">Admin</a></li>
+  {% endif %}
+{% endblock %}
+
+{% block account_menu_items %}{% endblock %}

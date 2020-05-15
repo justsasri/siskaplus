@@ -1,0 +1,39 @@
+{% extends 'sites/academic/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item active" aria-current="page">{{ opts.verbose_name_plural | title }}</li>
+{% endblock %}
+
+{% block page_title %}
+  <h1 class="display-5 text-white">{{ opts.verbose_name_plural | upper }}</h1>
+{% endblock %}
+
+{% block page_subtitle %}
+  <p>Currently we have 267 courses available (TODO)</p>
+{% endblock %}
+
+{% block content_sidebar %}
+  {% include 'sites/academic/lecture/filter.html' %}
+{% endblock %}
+
+{% block content_main %}
+    {% with object_list as results %}
+      {% if results %}
+        {% for item in results %}
+          {% include 'sites/academic/lecture/snippet.html' with instance=item %}
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <div class="border p-3 pt-4 text-center bg-white">
+            <h3>{% trans 'Hmmm.. Sorry no lecture here !' %}</h3>
+            <p>{% trans 'please, contact us if something goes wrong ..' %}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+  <div id="pagination">
+    {% include 'shared/pagination.html' %}
+  </div>
+{% endblock %}

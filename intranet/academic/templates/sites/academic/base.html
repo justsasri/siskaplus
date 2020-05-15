@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700">
+  <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.bundle.css' %}">
+{% endblock %}
+
+{% block header %}
+  {% include 'sites/academic/includes/navbar.html' %}
+{% endblock %}
+
+{% block breadcrumb_class %}{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="//{{ request.get_host }}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'academic_app_index' %}">{% trans 'Academic' %}</a></li>
+  {% block breadcrumb_items %}{% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script type="text/javascript" src="{% static 'js/main.bundle.js' %}"></script>
+{% endblock %}

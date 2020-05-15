@@ -1,0 +1,28 @@
+{% extends 'account/base.html' %}
+{% load i18n %}
+
+{% block breadcrumb %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block content_main %}
+
+{% if user.person %}
+  {% include 'profile/includes/header.html' %}
+{% endif %}
+
+<section class="client">
+  <div class="container-fluid">
+    <div class="bg-white">
+      <span>@{{ user.username }}</span>
+      <h3 class="mb-3">{{ user }}</h3>
+      {% if not user.person %}
+      <div class="alert alert-danger rounded-0 alert-dismissible fade show" role="alert">
+        {% blocktrans %} Hi {{ user }}, you don't have personal profile.
+        please contact administrator if something goes wrong.
+        {% endblocktrans %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

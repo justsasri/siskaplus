@@ -1,0 +1,46 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Award' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_award_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.awards.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Description' %}</th>
+      <th class="border-0">{% trans 'Date' %}</th>
+      {% if is_mine %}
+        <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.awards.all as items %}
+      {% for item in items %}
+        <tr>
+          <td class="pl-3">{{ item.name }}</td>
+          <td>{% firstof item.description '-' %}</td>
+          <td>{{ item.date }}</td>
+          {% if is_mine %}
+            {% include 'profile/includes/action_buttons.html' %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  {% trans 'award' as model_name %}
+    {% include 'profile/includes/empty_table.html' with model_name=model_name %}
+  {% endif %}
+{% endblock %}

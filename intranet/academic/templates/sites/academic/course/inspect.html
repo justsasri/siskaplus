@@ -1,0 +1,211 @@
+{% extends 'sites/academic/base.html' %}
+{% load i18n static %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <style>
+    .course__sks-number {
+      background: #fbfbfb;
+    }
+  </style>
+{% endblock %}
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="{% url 'academic_course_index' %}">{{ opts.verbose_name_plural | title }}</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">{{ instance | title }}</li>
+{% endblock %}
+
+{% block page_title %}
+  <h1 class="display-5 text-white">{{ instance.name | title }}</h1>
+{% endblock %}
+
+{% block page_subtitle %}
+  {% if instance.summary %}
+    <p>{{ instance.summary | safe }}</p>
+  {% endif %}
+  <div class="page-header__meta">
+    {% if instance.rmu %}
+      <p><strong>{{ instance.rmu }}</strong></p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content_main_class %}col-md-9{% endblock %}
+{% block content_main %}
+  <div class="course__sks bg-white p-2 mb-3 border">
+    <div class="row">
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0 font-weight-bold"><i class="mdi mdi-school"></i></h1>
+          <span class="badge badge-succes">{% trans 'SKS' %}</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0">{{ instance.meeting }}</h1>
+          <span class="badge badge-succes">{% trans 'Meeting' %}</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0">{{ instance.practice }}</h1>
+          <span class="badge badge-succes">{% trans 'Practice' %}</span></div>
+      </div>
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0">{{ instance.field_practice }}</h1>
+          <span class="badge badge-succes">{% trans 'Field' %}</span></div>
+      </div>
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0">{{ instance.simulation }}</h1>
+          <span class="badge badge-succes">{% trans 'Simulation' %}</span></div>
+      </div>
+      <div class="col-4 col-md-2 mb-2 mb-md-0">
+        <div class="course__sks-number p-3 text-center rounded">
+          <h1 class="m-0">{{ instance.total }}</h1>
+          <span class="badge badge-succes">{% trans 'Total' %}</span></div>
+      </div>
+    </div>
+  </div>
+
+  {% if instance.description %}
+    <div class="body">
+      {{ instance.description | safe }}
+    </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block content_sidebar %}
+  <div class="sidebar__widget">
+    <h4 class="sidebar__widget__title">{% trans 'course' as detail %}{{ detail | title }} #{{ instance.course_code }}</h4>
+    <div class="sidebar__widget__content">
+      <ul class="list-group list-group-flush mt-n1 mb-3">
+        <li class="list-group-item"><strong>{% trans 'active' as status %}{{ status | title }}: </strong>
+          {% if instance.is_active %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}
+        </li>
+        <li class="list-group-item"><strong>{% trans 'type' as type %}{{ type | title }}: </strong>{{ instance.course_type }}</li>
+        <li class="list-group-item"><strong>{% trans 'group' as group %}{{ group | title }}: </strong>{{ instance.course_group }}</li>
+        <li class="list-group-item"><strong>{% trans 'level' as level %}{{ level | title }}: </strong>{{ instance.get_level_display }}</li>
+        <li class="list-group-item"><strong>{% trans 'year offered' as year %}{{ year | title }}: </strong>{{ instance.get_year_offered_display }}
+        <li class="list-group-item"><strong>
+          {% trans 'teaching material' as material %}{{ material | title }}: </strong>
+          {% if instance.has_teaching_material %}
+            <a href="{{ instance.teaching_material }}" target="_blank">Download</a>
+          {% else %}
+            -
+          {% endif %}
+        </li>
+        <li class="list-group-item"><strong>
+          {% trans 'lecture program' as lpu %}{{ lpu | title }}: </strong>
+          {% if instance.has_lpu %}
+            <a href="{{ instance.lpu }}" target="_blank">Download</a>
+          {% else %}
+            -
+          {% endif %}
+        </li>
+        <li class="list-group-item"><strong>
+          {% trans 'practice program' as program %}{{ program | title }}: </strong>
+          {% if instance.has_practice_program %}
+            <a href="{{ instance.practice_program }}" target="_blank">Download</a>
+          {% else %}
+            -
+          {% endif %}
+        </li>
+        <li class="list-group-item"><strong>
+          {% trans 'dictate' as dictate %}{{ dictate | title }}: </strong>
+          {% if instance.has_dictate %}
+            <a href="{{ instance.dictate }}" target="_blank">Download</a>
+          {% else %}
+            -
+          {% endif %}
+        </li>
+      </ul>
+      {% if instance.syllabus %}
+        <a href="{{ instance.syllabus }}" class="btn btn-block btn-danger">Download Syllabus</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if instance.teachers.all %}
+    <div class="sidebar__widget">
+      <h4 class="sidebar__widget__title">{% trans 'teachers' as teachers_text %}{{ teachers_text | title }}</h4>
+      <div class="sidebar__widget__content">
+        <ul>
+        {% for teacher in instance.teachers.all %}
+          <li>
+            <div><a href="{% url 'academic_teacher_inspect' instance_pk=teacher.id %}"><strong>{{ teacher }}</strong></a></div>
+            <div class="small">{% if teacher.tid %}#{{ teacher.tid }}, {% endif %}{{ teacher.rmu }} </div>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if instance.requisites.all %}
+    <div class="sidebar__widget">
+      <h4 class="sidebar__widget__title">{% trans 'requirements' as requirements %}{{ requirements | title }}</h4>
+      <div class="sidebar__widget__content">
+        <ul>
+        {% for item in instance.requisites.all %}
+          <li>
+            <div>
+              <a href="{% url 'academic_course_inspect' item.requisite.id %}"><strong>{{ item.requisite.name }}</strong></a>
+            </div>
+            <div class="small">#{{ item.requisite.old_code }}, {% trans 'min score' %} {{ item.score }}</div>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if instance.required_by.all %}
+    {% with instance.required_by.all as results %}
+      <div class="sidebar__widget">
+        <h4 class="sidebar__widget__title">{% trans 'required by' as required %}{{ required | title }}</h4>
+        <div class="sidebar__widget__content">
+          <ul>
+          {% for item in results %}
+            <li>
+              <div>
+                <a href="{% url 'academic_course_inspect' item.course.id %}">
+                  <strong>{{ item.course.name }}</strong>
+                </a>
+              </div>
+              <div class="small">{{ item.course.old_code }}</div>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endwith %}
+  {% endif %}
+
+  {% if instance.curriculum_courses.all %}
+    {% with instance.curriculum_courses.all as results %}
+      <div class="sidebar__widget">
+        <h4 class="sidebar__widget__title">{% trans 'Curriculum' as curriculum_text %}{{ curriculum_text | title }}</h4>
+        <div class="sidebar__widget__content">
+          <ul>
+          {% for item in results %}
+            <li>
+              <div>
+                <a href="{% url 'academic_curriculum_inspect' item.curriculum.id %}">
+                  <strong>{{ item.curriculum.name }}</strong>
+                </a>
+              </div>
+              <div class="small">{{ item.curriculum.code }}, Semester {{ item.semester_number }}</div>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endwith %}
+  {% endif %}
+
+{% endblock %}

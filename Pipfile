@@ -1,0 +1,53 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+docutils = "*"
+pylint = "*"
+flake8 = "*"
+codecov = "*"
+coverage = "*"
+jupyter = "*"
+django-extensions = "*"
+django-debug-toolbar = "*"
+mkdocs = "==1.0.4"
+mkdocs-material = "==4.6.0"
+mkdocs-pdf-export-plugin = "*"
+
+[packages]
+wagtail = "*"
+wagtailmenus = "*"
+wagtailfontawesome = "*"
+django-mptt = "*"
+django-taggit = "*"
+django-filter = "*"
+django-allauth = "*"
+django-cors-middleware = "*"
+django-widget-tweaks = "*"
+django-polymorphic = "*"
+django-el-pagination = "*"
+django-select2 = "*"
+django-recaptcha = "*"
+django-environ = "*"
+django-storages = "*"
+django-formtools = "*"
+django-model-utils = "*"
+django-slack = "*"
+django-redis = "*"
+django-import-export = "*"
+django-bootstrap-datepicker-plus = "*"
+django-constance = {extras = ["database"],version = "*"}
+django-activity-stream = "*"
+django-jsonfield = "*"
+django-heroku = "*"
+qrcode = {extras = ["pil"],version = "*"}
+psycopg2 = "*"
+gunicorn = "*"
+boto3 = "*"
+pandas = "*"
+
+[requires]
+python_version = "3.7"

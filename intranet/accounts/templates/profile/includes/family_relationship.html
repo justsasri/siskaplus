@@ -1,0 +1,54 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Family Relationship' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_family_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.families.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Relation' %}</th>
+      <th class="border-0">{% trans 'Other' %}</th>
+      <th class="border-0">{% trans 'Date of birth' %}</th>
+      <th class="border-0">{% trans 'Place of birth' %}</th>
+      <th class="border-0">{% trans 'Job' %}</th>
+      <th class="border-0">{% trans 'Address' %}</th>
+      {% if is_mine %}
+        <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.families.all as families %}
+      {% for item in families %}
+        <tr>
+          <td class="pl-3">{{ item.name }}</td>
+          <td>{% firstof item.get_relation_display '-' %}</td>
+          <td>{% firstof item.relationship '-' %}</td>
+          <td>{% firstof item.date_of_birth '-' %}</td>
+          <td>{% firstof item.place_of_birth '-' %}</td>
+          <td>{% firstof item.job '-' %}</td>
+          <td>{% firstof item.address '-' %}</td>
+          {% if is_mine %}
+            {% include 'profile/includes/action_buttons.html' %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  {% trans 'family relationship' as model_name %}
+    {% include 'profile/includes/empty_table.html' with model_name=model_name %}
+  {% endif %}
+{% endblock %}

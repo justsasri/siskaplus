@@ -1,0 +1,68 @@
+{% load i18n %}
+<footer class="footer bg-dark">
+  <div class="container pt-4 pb-4">
+    <div class="footer__logo mb-3">
+      {% include 'sites/academic/includes/logo.html' %}
+    </div>
+
+    <div class="footer__menus row">
+      <div class="footer__menu col-md-3">
+        <h2>{% trans 'Help & Tutorials' %}</h2>
+        <nav aria-label="Help navigation">
+          <ul>
+            <li><a href="#">{% trans 'For Students' %}</a></li>
+            <li><a href="#">{% trans 'For Teachers' %}</a></li>
+            <li><a href="#">{% trans 'User Guides' %}</a></li>
+            <li><a href="#">{% trans 'FAQ' %}</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer__menu col-md-3">
+        <h2>Siska+ Applications</h2>
+        <nav aria-label="About PyPI navigation">
+          <ul>
+            <li><a href="#">Academic Index</a></li>
+            <li><a href="#">Student Enrollment</a></li>
+            <li><a href="#">Lecture Management</a></li>
+            <li><a href="#">Sitemap</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer__menu col-md-3">
+        <h2>{% trans 'Support' %}</h2>
+        <nav aria-label="How to contribute navigation">
+          <ul>
+            <li><a href="#">{% trans 'Bugs and feedback' %}</a></li>
+            <li><a href="#">{% trans 'ICT Support' %}</a></li>
+            <li><a href="#">{% trans 'Academic Information' %}</a></li>
+            <li><a href="#">{% trans 'Finance Helpdesk' %}</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer__menu col-md-3">
+        <h2>Using PyPI</h2>
+        <nav aria-label="About Us">
+          <ul>
+            <li><a href="#">Code of conduct</a></li>
+            <li><a href="#">Report security issue</a></li>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Terms of use</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <hr class="footer__divider">
+
+    <div class="footer__text">
+
+      <span>© 2020 <a href="https://www.darmajaya.ac.id/" title="External link" target="_blank" rel="noopener">
+        IBI Darmajaya</a> - <a href="/sitemap/">Site map</a>
+      </span>
+    </div>
+
+  </div>
+</footer>

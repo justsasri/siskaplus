@@ -1,0 +1,30 @@
+{% extends 'materials/components/appbar_section.html' %}
+
+{% block appbar_section_align %}end{% endblock %}
+{% block appbar_section_attributes %}role="toolbar"{% endblock %}
+{% block appbar_section_classes %}{% endblock %}
+
+{% block appbar_section_items %}
+  {% if buttons %}
+    {% for button in buttons %}
+      {% include 'materials/components/appbar_section_button.html' with button=button %}
+    {% endfor %}
+  {% endif %}
+  <div class="mdc-menu-surface--anchor menu-container">
+    <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button js--dropdown-toggle" aria-label="Options">
+      more_vert
+    </button>
+    <div class="mdc-menu mdc-menu-surface">
+      <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+        {% block appbar_options_menu %}
+        <li class="mdc-list-item" role="menuitem">
+          <a href="#" class="mdc-list-item__link"><span class="mdc-list-item__text">A Menu Item 1</span></a>
+        </li>
+        <li class="mdc-list-item" role="menuitem">
+          <span class="mdc-list-item__text">A Menu Item 1</span>
+        </li>
+        {% endblock %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

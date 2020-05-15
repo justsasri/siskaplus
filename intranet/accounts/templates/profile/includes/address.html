@@ -1,0 +1,52 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Address' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_personaddress_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.addresses.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Address' %}</th>
+      <th class="border-0">{% trans 'City' %}</th>
+      <th class="border-0">{% trans 'Province' %}</th>
+      <th class="border-0">{% trans 'Country' %}</th>
+      <th class="border-0">{% trans 'Zipcode' %}</th>
+      {% if is_mine %}
+      <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.addresses.all as pubs %}
+    {% for item in pubs %}
+    <tr>
+      <td class="pl-3"><strong>{{ item.name | title }}</strong>
+        <div>{% firstof item.street '-' %}</div>
+      </td>
+      <td>{% firstof item.city '-' %}</td>
+      <td>{% firstof item.province '-' %}</td>
+      <td>{% firstof item.country '-' %}</td>
+      <td>{% firstof item.zipcode '-' %}</td>
+      {% if is_mine %}
+        {% include 'profile/includes/action_buttons.html' %}
+      {% endif %}
+    </tr>
+    {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+{% trans 'address' as model_name %}
+{% include 'profile/includes/empty_table.html' with model_name=model_name %}
+{% endif %}
+{% endblock %}

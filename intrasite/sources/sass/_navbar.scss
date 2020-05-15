@@ -1,0 +1,65 @@
+.navbar {
+
+}
+
+.navbar-brand {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base * 1.4;
+}
+
+.brand-text {
+  font-size: 1.3rem;
+}
+
+.navbar-brand img {
+  max-width: 110px;
+  height: 38px;
+}
+
+.navbar-toggler {
+    padding: .5rem .75rem;
+    font-size: 1.09375rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+.navbar-nav {
+  padding-right: 0;
+  padding-left: 0;
+  .nav-link {
+    padding: .7rem 1rem;
+    font-size: $font-size-base * 1.1;
+    font-weight: $font-weight-bold;
+    &.nav-icon-button {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+    }
+  }
+  .nav-icon-button {
+    border-radius: 50%;
+    &:focus {
+      background-color: rgba(0, 0, 0, .1);
+    }
+  }
+}
+
+.navbar.navbar-dark .nav-icon-button,
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar.navbar-light .nav-icon-button {
+    color: rgba(0, 0, 0, 0.5);
+}
+.dropdown-item {
+  color: $body-color;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: $gray-500;
+}

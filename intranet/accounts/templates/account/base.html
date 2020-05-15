@@ -1,0 +1,174 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+      {% block title %}
+        {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ page_title }}{% endif %}
+      {% endblock %}
+      {% block title_suffix %}
+        {% with self.get_site.site_name as site_name %}
+          {% if site_name %}- {{ site_name }}{% endif %}
+        {% endwith %}
+      {% endblock %}
+    </title>
+    <meta name="description" content="{{ page_description }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <link rel="stylesheet" href="{% static 'intranet_accounts/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="{% static 'intranet_accounts/css/fontastic.css' %} ">
+    <link rel="stylesheet" href="{% static 'intranet_accounts/css/style.blue.css' %}" id="theme-stylesheet">
+    <link rel="stylesheet" href="{% static 'intranet_accounts/css/custom.css' %}">
+    <link rel="shortcut icon" href="{% static 'intranet_accounts/img/favicon.ico' %} ">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block extra_css %}
+      {# Override this in templates to add extra stylesheets #}
+    <style>
+      .errorlist {
+        margin: 0;
+        padding-left: 17px;
+        font-size: small;
+        color: red;
+      }
+      .profile__header {
+        background-color: #2380c3;
+        text-align: center;
+        color: white;
+      }
+
+      .profile__header .contact-list {
+        margin: 0;
+        padding: 0;
+      }
+
+      .profile__header .contact-list li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .profile__header .contact-list li a {
+        color: white;
+        font-size: 1.1rem;
+        padding: .35rem;
+      }
+
+      .profile__header .dropdown-toggle {
+        display: inline-block;
+        border: 1px solid rgba(255, 255, 255, .7);;
+        color: rgba(255, 255, 255, .7);
+        padding: 5px 15px;
+        border-radius: 3px;
+      }
+
+      .profile__header .dropdown-toggle:hover,
+      .profile__header .dropdown-toggle:focus {
+        text-decoration: none;
+      }
+
+      .profile__header .dropdown-toggle:focus {
+        color: rgba(255, 255, 255, 1);
+        border-color: rgba(255, 255, 255, 1);
+      }
+
+      .profile__header .title .h4 {
+        font-size: 1.3rem;
+      }
+
+      .profile__header .title p {
+          font-size: 1rem;
+          max-width: 70%;
+          margin: 0 auto;
+      }
+      .profile__header .avatar {
+      }
+      .profile__header .avatar img {
+        margin: 0 auto 1rem ;
+        height: 100px;
+        width: 100px;
+      }
+
+      .project .project-progress {
+        width: 100px;
+      }
+      .card-profile .card-header {
+        box-shadow: none;
+        border: none;
+        background: white !default;
+        height: 9rem;
+        background-size: cover;
+        background-position: center center;
+      }
+      .card-profile-img {
+        max-width: 8rem;
+        margin-top: -6rem;
+        margin-bottom: 1rem;
+        border: 3px solid #fff;
+        border-radius: 100%;
+      }
+    </style>
+    {% endblock %}
+
+  </head>
+  <body class="text-grey">
+    {% block messages %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="mb-0 alert alert-{% if message.tags %}{% if message.tags == 'error' %}danger {% else %}{{ message.tags }}{% endif %}{% endif %} rounded-0 alert-dismissible fade show"
+               role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock %}
+
+    {% block page %}
+    <div class="page">
+      {% include 'account/includes/navbar.html' %}
+      <div class="page-content d-flex align-items-stretch">
+        {% include 'account/includes/sidenav.html' %}
+        <div class="content-inner">
+          <!-- Page Header-->
+          {% block page_header %}
+            <header class="page-header">
+              <div class="container-fluid">
+                {% block page_title %}
+                <h2 class="no-margin-bottom">{{ page_title | title }}</h2>
+                {% endblock %}
+              </div>
+            </header>
+          {% endblock %}
+
+          {% block breadcrumb %}{% endblock %}
+
+          {% block content_main %}{% endblock %}
+
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+
+    <!-- JavaScript files-->
+    <script src="{% static 'intranet_accounts/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'intranet_accounts/vendor/popper.js/umd/popper.min.js' %}"></script>
+    <script src="{% static 'intranet_accounts/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'intranet_accounts/vendor/jquery.cookie/jquery.cookie.js' %}"></script>
+    <script src="{% static 'intranet_accounts/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'intranet_accounts/vendor/jquery-validation/jquery.validate.min.js' %}"></script>
+
+    <!-- Main File-->
+    <script src="{% static 'intranet_accounts/js/front.js' %}"></script>
+  </body>
+</html>

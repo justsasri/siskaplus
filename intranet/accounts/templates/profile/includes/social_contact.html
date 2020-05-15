@@ -1,0 +1,76 @@
+<div class="text-center">
+  <ul class="contact-list d-flex">
+    {% if instance.socialmedia.instagram %}
+    <li class="contact-list-item">
+      <a href="https://instagram.com/{{ instance.socialmedia.instagram }}"
+         target="_blank" title="{{ instance.socialmedia.instagram }}">
+        <i class="mdi mdi-instagram mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.socialmedia.twitter %}
+    <li class="contact-list-item">
+      <a href="https://twitter.com/{{ instance.socialmedia.twitter }}"
+         target="_blank" title="{{ instance.socialmedia.twitter }}">
+        <i class="mdi mdi-twitter mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.socialmedia.facebook %}
+    <li class="contact-list-item">
+      <a href="https://facebook.com/{{ instance.socialmedia.facebook }}"
+         target="_blank" title="{{ instance.socialmedia.facebook }}">
+        <i class="mdi mdi-facebook mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.socialmedia.youtube %}
+    <li class="contact-list-item">
+      <a href="http://www.youtube.com/{{ instance.socialmedia.youtube }}"
+         target="_blank" title="{{ instance.socialmedia.youtube }}">
+        <i class="mdi mdi-youtube mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.contact.whatsapp %}
+    <li class="contact-list-item">
+      <a href="https://wa.me/{{ instance.contact.whatsapp }}"
+         target="_blank" title="{{ instance.contact.whatsapp }}">
+        <i class="mdi mdi-whatsapp mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.contact.email %}
+    <li class="contact-list-item">
+      <a href="mailto:{{ instance.contact.email }}"
+         target="_blank" title="{{ instance.contact.email }}">
+        <i class="mdi mdi-email mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.contact.phone %}
+    <li class="contact-list-item">
+      <a href="tel:{{ instance.contact.phone }}"
+         target="_blank" title="{{ instance.contact.phone }}">
+        <i class="mdi mdi-phone mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.contact.fax %}
+    <li class="contact-list-item">
+      <a href="tel:{{ instance.contact.fax }}"
+         target="_blank" title="{{ instance.contact.fax }}">
+        <i class="mdi mdi-fax mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+    {% if instance.contact.website %}
+    <li class="contact-list-item">
+      <a href="{{ instance.contact.website }}"
+         target="_blank" title="{{ instance.contact.website }}">
+        <i class="mdi mdi-link mr-2"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>

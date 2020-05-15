@@ -1,0 +1,111 @@
+{% load i18n static %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>
+    {% block title %}
+      {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ page_title }}{% endif %}
+    {% endblock %}
+    {% block title_suffix %}
+      {% with self.get_site.site_name as site_name %}
+        {% if site_name %}- {{ site_name }}{% endif %}
+      {% endwith %}
+    {% endblock %}
+  </title>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  {% block extra_css %}
+    {# Override this in templates to add extra stylesheets #}
+  {% endblock %}
+
+</head>
+
+<body class="{% block body_class %}bg-light{% endblock %}">
+
+{% block messages %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="mb-0 alert alert-{% if message.tags %}{% if message.tags == 'error' %}danger {% else %}{{ message.tags }}{% endif %}{% endif %} rounded-0 alert-dismissible fade show"
+           role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block header %}
+  {% include 'includes/navbar.html' %}
+{% endblock %}
+
+{% block page_header %}
+  <div class="page-header {% block page_header_class %}{% endblock %}">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb {% block breadcrumb_class %}{% endblock %}">
+          {% block breadcrumb %}{% endblock %}
+        </ol>
+      </nav>
+      {% block page_title_wrapper %}
+      <div class="row">
+        <div class="col-12 col-md-8">
+          {% block page_title %}
+            {% if page_title %}<h1 class="page-title">{{ page_title }}</h1>{% endif %}
+          {% endblock %}
+          {% block page_subtitle %}
+            {% if page_subtitle %}<p>{{ page_subtitle }}</p>{% endif %}
+          {% endblock %}
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="header-buttons text-right">
+            {% block header_button %}{% endblock %}
+          </div>
+        </div>
+      </div>
+      {% endblock %}
+      {% block tabs %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block content_before %}{% endblock %}
+{% block content %}
+  {{ content }}
+  <div class="container {% block content_container_class %}mb-5{% endblock %}">
+    {% block content_container %}
+      <div class="row justify-content-center">
+        {% block wrapper_sidebar %}
+        <div class="col-12 {% block content_sidebar_class %}col-md-3{% endblock %}">
+          {% block content_sidebar %}{% endblock %}
+        </div>
+        {% endblock %}
+        <div class="col-12 {% block content_main_class %}col-md-9{% endblock %}">
+          {% block content_main %}{% endblock %}
+        </div>
+        {% block wrapper_sidebar_right %}
+        <div class="col-12 {% block content_sidebar_right_class %}col-md-4{% endblock %}">
+          {% block content_sidebar_right %}{% endblock %}
+        </div>
+        {% endblock %}
+      </div>
+    {% endblock %}
+  </div>
+{% endblock %}
+{% block content_after %}{% endblock %}
+
+{% block extra_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{# Global javascript #}
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
+{% block extra_js %}
+  {# Override this in templates to add extra javascript #}
+{% endblock %}
+</body>
+</html>

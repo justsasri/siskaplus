@@ -1,0 +1,28 @@
+{% extends 'account/base.html' %}
+{% load i18n static %}
+
+{% block extra_css %}
+{{ block.super }}
+
+{% endblock %}
+
+{% block breadcrumb %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block content_main %}
+
+{% include 'profile/includes/header.html' %}
+
+<div class="container-fluid mt-4">
+  {% include 'profile/includes/address.html' with card_name='personaddress' %}
+  {% include 'profile/includes/skill.html' with card_name='skill' %}
+  {% include 'profile/includes/formal_education.html' with card_name='formaleducation' %}
+  {% include 'profile/includes/nonformal_education.html' with card_name='nonformaleducation' %}
+  {% include 'profile/includes/working.html' with card_name='work' %}
+  {% include 'profile/includes/volunteer.html' with card_name='volunteer' %}
+  {% include 'profile/includes/award.html' with card_name='award' %}
+  {% include 'profile/includes/publication.html' with card_name='publication' %}
+  {% include 'profile/includes/family_relationship.html' with card_name='family' %}
+</div>
+
+{% endblock %}

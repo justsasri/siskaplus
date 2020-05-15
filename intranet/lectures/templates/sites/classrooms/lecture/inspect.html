@@ -1,0 +1,92 @@
+{% extends 'sites/classrooms/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item active" aria-current="page">
+  <a href="{% url 'classrooms_lecture_index' %}">{{ opts.verbose_name_plural | title }}</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">{{ instance }}</li>
+{% endblock %}
+
+{% block page_title %}
+<h1 class="page-title">
+  {{ instance.title }}
+</h1>
+{% endblock %}
+
+{% block page_subtitle %}{% endblock %}
+
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Description</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Planned</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Enrolled</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Schedules</a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content_main_class %}col-md-9{% endblock %}
+
+{% block content_main %}
+<div class="card">
+  <div class="card-header">
+    <div class="row mb-3">
+      <div class="col-9 col-md-10">
+        <h3 class="font-weight-bold mb-3">{{ instance.curriculum_course.course }}</h3>
+        <div class="mb-3">
+          <div class="mr-2 d-inline-block">
+            <i class="mdi mdi-school"></i>
+            {{ instance.curriculum_course.curriculum.rmu }} / Semester {{ instance.curriculum_course.semester_number }}
+          </div>
+          <div class="mr-2 d-inline-block"><i class="mdi mdi-door-open"></i> {{ instance.room }}</div>
+          <div class="mr-2 d-inline-block">
+            <i class="mdi mdi-arrow-right-drop-circle-outline"></i>
+            {{ instance.duration }} x {{ instance.series }} {% trans 'series' %}
+          </div>
+          <div class="mr-2 d-inline-block">
+            <i class="mdi mdi-account-circle-outline"></i>
+            12 / 35 students
+          </div>
+        </div>
+        {% if instance.curriculum_course.course.summary %}
+          <p>{{ instance.curriculum_course.course.summary | safe }}</p>
+        {% endif %}
+      </div>
+      <div class="col-3 col-md-2">
+        <img src="{{ instance.qrcode.url }}" class="img-fluid shadow-sm">
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    {% if instance.curriculum_course.course.description %}
+      <p>{{ instance.curriculum_course.course.description | safe }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block content_sidebar_class %}col-md-3{% endblock %}
+{% block content_sidebar %}
+<div class="sidebar__widget">
+  <div class="user-view mt-3">
+    <a href="{% if instance.teacher.account.person %}{% url 'public_profile' username=instance.teacher.account.username %}{% else %}#{% endif %}">
+      <img src="{{ instance.teacher.account.gravatar }}" alt="Avatar" class="avatar avatar-lg avatar-center rounded-circle ">
+    </a>
+    <span class="name mt-3">{{ instance.teacher }}</span>
+    <span class="email">{{ instance.teacher.account.primary_email }}</span>
+  </div>
+</div>
+{% endblock %}

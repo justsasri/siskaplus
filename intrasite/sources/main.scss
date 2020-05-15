@@ -1,0 +1,70 @@
+@import "./sass/bootstrap";
+@import "./sass/navbar";
+@import "./sass/tabs";
+@import "./sass/sidebar";
+@import "./sass/breadcrumb";
+@import "./sass/button";
+@import "./sass/card";
+
+// Layout
+
+a, a:hover, a:focus {
+  text-decoration: none;
+}
+
+.container {
+  padding-right: $grid-gutter-width;
+  padding-left: $grid-gutter-width;
+}
+
+#header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.page-header {
+  color: white;
+  background-color: darken($primary, 6);
+  margin-bottom: $grid-gutter-width * 2;
+  padding-top: 64px;
+}
+
+.page-title {
+  font-size: 1.8rem ;
+  margin-bottom: $grid-gutter-width;
+}
+
+// Avatar
+
+.user-view {
+  .name {
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    display: block;
+    text-align: center;
+  }
+  .email {
+    display: block;
+    text-align: center;
+  }
+}
+
+.avatar {
+  display: block;
+  &-center {
+    margin: 0 auto;
+  }
+  &-sm {
+    width: 32px;
+    height: 32px;
+  }
+  &-md {
+    width: 64px;
+    height: 64px;
+  }
+  &-lg {
+    width: 96px;
+    height: 96px;
+  }
+}

@@ -1,0 +1,52 @@
+{% extends 'account/shared/card.html' %}
+{% load i18n %}
+
+{% block card_title %}{% trans 'Volunteer' %}{% endblock %}
+
+{% block card_action %}
+<a href="{% url 'profile_volunteer_create' %}" class="dropdown-item edit">
+  <i class="fa fa-plus"></i>{% trans 'New' %}
+</a>
+{% endblock %}
+
+{% block card_content %}
+{% if instance.volunteers.all %}
+<div class="table-responsive">
+  <table class="table small highlight">
+    <thead>
+    <tr>
+      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Position' %}</th>
+      <th class="border-0">{% trans 'Date start' %}</th>
+      <th class="border-0">{% trans 'Date end' %}</th>
+      <th class="border-0">{% trans 'Status' %}</th>
+      {% if is_mine %}
+        <th class="border-0" width="50"></th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% with instance.volunteers.all as orgs %}
+      {% for item in orgs %}
+        <tr>
+          <td class="pl-3"><strong>{{ item.organization }}</strong>
+            <div>{% firstof item.description '-' %}</div>
+          </td>
+          <td>{% firstof item.position '-' %}</td>
+          <td>{% firstof item.date_start '-' %}</td>
+          <td>{% firstof item.date_end '-' %}</td>
+          <td>{% firstof item.get_status_display '-' %}</td>
+          {% if is_mine %}
+            {% include 'profile/includes/action_buttons.html' %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% endwith %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  {% trans 'volunteering experince' as model_name %}
+    {% include 'profile/includes/empty_table.html' with model_name=model_name %}
+  {% endif %}
+{% endblock %}

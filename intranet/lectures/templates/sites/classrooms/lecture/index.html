@@ -1,0 +1,57 @@
+{% extends 'sites/classrooms/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item active" aria-current="page">{{ opts.verbose_name_plural | title }}</li>
+{% endblock %}
+
+{% block page_title %}
+  <h1 class="page-title">{{ opts.verbose_name_plural | upper }}</h1>
+{% endblock %}
+
+{% block page_subtitle %}{% endblock %}
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Index</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Enrolled</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Teaching</a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content_sidebar %}
+  {% include 'sites/classrooms/lecture/filter.html' %}
+{% endblock %}
+
+{% block content_main %}
+
+  <div class="row">
+    {% with object_list as results %}
+      {% if results %}
+        {% for item in results %}
+          {% include 'sites/classrooms/lecture/snippet.html' with instance=item action_button=True %}
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <div class="border p-3 pt-4 text-center bg-white">
+            <h3>{% trans 'Hmmm.. Sorry no lecture here !' %}</h3>
+            <p>{% trans 'please, contact us if something goes wrong ..' %}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+  <div id="pagination">
+    {% include 'shared/pagination.html' %}
+  </div>
+{% endblock %}

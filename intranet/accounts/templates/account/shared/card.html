@@ -1,0 +1,28 @@
+<div class="{{ card_name }} card">
+  {% if close_button %}
+  <div class="card-close">
+    <div class="dropdown">
+      <button type="button"
+              id="close__{{ card_name }}"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              class="dropdown-toggle">
+        <i class="mdi mdi-dots-vertical"></i>
+      </button>
+      <div aria-labelledby="close__{{ card_name }}" class="dropdown-menu dropdown-menu-right has-shadow">
+        {% block card_action %}{% endblock %}
+        <a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% block card_header %}
+  <div class="card-header d-flex align-items-center">
+    <h3 class="h4">{% block card_title %}Title{% endblock %}</h3>
+  </div>
+  {% endblock %}
+  <div class="card-body">
+    {% block card_content %}{% endblock %}
+  </div>
+</div>

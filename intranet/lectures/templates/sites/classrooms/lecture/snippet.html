@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="col-12 col-md-{% firstof col_num '6' %}">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'classrooms_lecture_inspect' instance_pk=instance.id %}">{{ instance }}</a></h5>
+      <div class="card-meta">
+        <span class="card-meta__item">{{ instance.curriculum.rmu }}</span>
+        <span class="card-meta__item"> Semester {{ instance.curriculum_course.semester_number }}</span>
+        <span class="card-meta__item">{{ instance.room }}</span>
+        <span class="card-meta__item">{{ instance.duration }} x {{ instance.series }} {% trans 'series' %}</span>
+      </div>
+    </div>
+
+    {% if action_button %}
+    <div class="card-footer">
+      {% if user.primary_student %}
+      <a href="{% url 'classrooms_studentplan_add' instance_pk=instance.id %}" title="{% trans 'Add to plan' %}"
+         class="btn btn-sm btn-primary mr-2">{% trans 'Add to plan' %}</a>
+      {% endif %}
+      <span>{{ instance.get_enrolled_students.count }} / {{ instance.max_capacity }} {% trans 'students' %}</span>
+    </div>
+    {% endif %}
+  </div>
+
+</div>

@@ -1,0 +1,28 @@
+{% extends 'account/base.html' %}
+{% load i18n %}
+
+{% block breadcrumb %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block content_main %}
+
+<div class="container-fluid mt-4">
+  <div class="{{ self.opts.model_name }} card">
+    <div class="card-body">
+      <div class="forms p-3">
+        <form action="" method="post" class="form-horizontal">
+          {% csrf_token %}
+          {% blocktrans %}
+          Are you sure you want to delete the selected <strong>{{ instance }}</strong>? All of the following objects and their related items will be deleted.
+          {% endblocktrans %}
+          {% include 'sites/includes/fieldset.html' %}
+          <div class="form-action mt-n3">
+            <input type="submit" class="btn btn-danger mr-3" value="{% trans 'Confirm Deletion' %}"/>
+            <a href="{% url 'public_profile' username=user.username %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

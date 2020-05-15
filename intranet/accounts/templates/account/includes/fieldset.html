@@ -1,0 +1,38 @@
+{% load formutils_tags widget_tweaks %}
+
+{% for field in form %}
+<div class="form-group row">
+  {% if field|is_checkbox %}
+    <div class="col-md-3">{{ field.label }}</div>
+    <div class="col-md-6">
+      <div class="i-checks">
+        {% render_field field class="checkbox-template" id=field.name %}
+        <label for="{{ field.name }}" class="col-md-3 form-control-label">
+          <span>{{ field.label }}</span>
+        </label>
+      </div>
+      <small class="form-text text-muted">{{ field.help_text }}</small>
+    </div>
+    {{ field.errors }}
+  {% elif field|is_textarea %}
+    <label for="{{ field.name }}" class="col-md-3 form-control-label">
+      {{ field.label }}{% if field.field.required %} <sup class="text-danger">*</sup>{% endif %}
+    </label>
+    <div class="col-md-6">
+      {% render_field field class="form-control" rows="5" %}
+      <small class="form-text text-muted">{{ field.help_text }}</small>
+      {{ field.errors }}
+    </div>
+  {% else %}
+    <label for="{{ field.name }}" class="col-md-3 form-control-label">
+      {{ field.label }}{% if field.field.required %} <sup class="text-danger">*</sup>{% endif %}
+    </label>
+    <div class="col-md-6">
+      {% render_field field class="form-control" %}
+      <small class="form-text text-muted">{{ field.help_text }}</small>
+      {{ field.errors }}
+    </div>
+  {% endif %}
+</div>
+<div class="line"></div>
+{% endfor %}

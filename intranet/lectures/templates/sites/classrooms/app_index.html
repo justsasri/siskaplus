@@ -1,0 +1,68 @@
+{% extends 'sites/classrooms/base.html' %}
+{% load i18n static %}
+
+{% block breadcrumb %}{% endblock %}
+
+{% block page_title_wrapper %}
+<div class="col-12">
+  <div class="text-white text-center pt-3 pb-3">
+    <i class="display-4 mdi mdi-teach"></i>
+    <h1 class="display-4">
+      {% trans 'Class Rooms' as title_text %} {{ title_text | upper }}
+    </h1>
+    <p class="text-center">{% trans 'Welcome to Darmajaya Digital Campus' %}</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content_container %}
+<section class="section-lecture mt-4 mt-4">
+  <div class="row">
+    <div class="col-12 col-md-12 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-md-12 mb-3">
+              <div class="row">
+                <div class="col-6">
+                  <span>15 {% trans 'lectures' %} open for registration</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="mdi mdi-help-circle-outline"></span> <a href="#">{% trans 'Need help ?' %}</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3 mb-md-0">
+              <label for="inputEmail4" class="d-none">Name</label>
+              <input type="email" class="form-control" id="inputEmail4" placeholder="Name">
+            </div>
+            <div class="form-group col-md-2 mb-md-0">
+              <label for="inputState" class="d-none">Semester</label>
+              <select id="inputState" class="form-control">
+                <option selected>Choose Semester...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3 mb-md-0">
+              <label for="inputState" class="d-none">Academic Year</label>
+              <select id="inputState" class="form-control">
+                <option selected>Choose Academic Year...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 mb-md-0">
+              <button type="submit" class="btn btn-block btn-primary">Filter</button>
+            </div>
+            <div class="form-group col-md-2 mb-md-0">
+              <a href="/classrooms/lecture/" class="btn btn-block btn-danger">Clear</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% for lecture in lectures %}
+    {% include 'sites/classrooms/lecture/snippet.html' with instance=lecture col_num=4 %}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

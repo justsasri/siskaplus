@@ -1,0 +1,10 @@
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed app-bar" id="app-bar">
+  <div class="mdc-top-app-bar__row">
+    {% block appbar_section_start %}
+      {% include 'materials/components/appbar_section_start.html' %}
+    {% endblock %}
+    {% block appbar_section_right %}
+      {% include 'materials/components/appbar_section_right.html' %}
+    {% endblock %}
+  </div>
+</header>

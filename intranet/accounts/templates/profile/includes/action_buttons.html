@@ -1,0 +1,21 @@
+{% load i18n %}
+<td class="column-action">
+  <div class="dropdown">
+    <button type="button"
+            id="record_action__{{ item.id }}"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            class="bg-white border-0 dropdown-toggle">
+      <i class="mdi mdi-dots-vertical"></i>
+    </button>
+    <div aria-labelledby="record_action__{{ item.id }}" class="dropdown-menu dropdown-menu-right has-shadow">
+      {% block card_action %}{% endblock %}
+      <a href="{{ item.get_edit_url }}" class="dropdown-item">{% trans 'Edit' %}</a>
+      <a href="{{ item.get_delete_url }}" class="dropdown-item">{% trans 'Remove' %}</a>
+      {% if item.document_link %}
+        <a href="{{ item.document_link }}" class="dropdown-item">{% trans 'Download' %}</a>
+      {% endif %}
+    </div>
+  </div>
+</td>

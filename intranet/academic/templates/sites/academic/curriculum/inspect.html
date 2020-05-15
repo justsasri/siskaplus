@@ -1,0 +1,109 @@
+{% extends 'sites/academic/base.html' %}
+{% load i18n static %}
+
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="{% url 'academic_curriculum_index' %}">{{ opts.verbose_name_plural | title }}</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">{{ instance | title }}</li>
+{% endblock %}
+
+{% block page_title %}
+  <h1 class="display-5 text-white">{{ instance | title }}</h1>
+{% endblock %}
+
+{% block page_subtitle %}
+  {% if instance.summary %}
+    <p>{{ instance.summary | safe }}</p>
+  {% endif %}
+  <div class="page-header__meta">
+    {% if instance.rmu %}
+      <p><strong>{{ instance.rmu }}, {% trans 'Year' %} {{ instance.year }}</strong></p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+
+{% block content_main_class %}col-md-9{% endblock %}
+{% block content_main %}
+
+  {% if instance.description %}
+    <div class="page-detail__body">
+      <div class="bg-light p-4 mb-3 border">
+        {{ instance.description | safe }}
+      </div>
+    </div>
+  {% endif %}
+
+  {% with instance.get_courses_by_semester as semesters %}
+    {% for semester in semesters %}
+      <h4 class="font-weight-bold mb-3">Semester {{ semester.number }}</h4>
+      <div class="curriculum-course-table bg-white mb-4 border">
+        <div class="table-responsive">
+          <table class="table table-sm table-hover table-small mb-0">
+            <thead>
+            <tr>
+              <th class="border-0 pl-4" scope="col">Nama MK</th>
+              <th class="border-0" width="150" scope="col"></th>
+              <th class="border-0" width="100" scope="col">Kode</th>
+              <th class="border-0 text-center" width="30" scope="col">MT</th>
+              <th class="border-0 text-center" width="30" scope="col">PC</th>
+              <th class="border-0 text-center" width="30" scope="col">PF</th>
+              <th class="border-0 text-center" width="30" scope="col">SM</th>
+              <th class="border-0 text-center pr-4" width="30" scope="col">ST</th>
+            </tr>
+            </thead>
+            <tbody>{% for item in semester.curriculum_courses %}
+              <tr>
+                <td class="pl-4" scope="row">
+                  <a href="{% url 'academic_course_inspect' item.course__id %}">{{ item.name }}</a>
+                </td>
+                <td>
+                  <span class="badge badge-primary">{{ item.type_alias }}</span>
+                  <span class="badge badge-primary">{{ item.group_alias }}</span>
+                  {% if  item.concentration__code %}
+                    <span class="badge badge-success">{{ item.concentration__code }}</span>
+                  {% endif %}
+                <td>{{ item.old_code }}</td>
+                <td class="text-center">{{ item.meeting }}</td>
+                <td class="text-center">{{ item.practice }}</td>
+                <td class="text-center">{{ item.field_practice }}</td>
+                <td class="text-center">{{ item.simulation }}</td>
+                <td class="text-center pr-4">{{ item.total }}</td>
+              </tr>
+            {% endfor %}
+            <tr>
+              <th class="pl-4" colspan="3" scope="row">Total {{ semester.course_count }} {% trans 'courses' %}</th>
+              <td class="text-center">{{ semester.meeting }}</td>
+              <td class="text-center">{{ semester.practice }}</td>
+              <td class="text-center">{{ semester.field_practice }}</td>
+              <td class="text-center">{{ semester.simulation }}</td>
+              <td class="text-center pr-3">{{ semester.total }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    {% endfor %}
+  {% endwith %}
+
+{% endblock %}
+
+{% block content_sidebar_class %}col-md-3{% endblock %}
+{% block content_sidebar %}
+  <div class="sidebar__widget">
+    <h4 class="sidebar__widget__title">{% trans 'detail' as detail %}{{ detail | title }} #{{ instance.code }}</h4>
+    <div class="sidebar__widget__content">
+      <ul class="list-group list-group-flush mt-n1 mb-3">
+        <li class="list-group-item"><strong>{% trans 'year' as year %}{{ year | title }}: </strong>{{ instance.year }}</li>
+        <li class="list-group-item"><strong>{% trans 'program study' as prodi %}{{ prodi | title }}: </strong>{{ instance.rmu }}</li>
+        <li class="list-group-item"><strong>
+          {% trans 'total courses' as total_courses %}{{ total_courses | title }}: </strong>{{ instance.curriculum_courses.count }}
+        </li>
+        <li class="list-group-item"><strong>
+          {% trans 'sks graduate' as sks_graduate %}{{ sks_graduate | title }}: </strong>{{ instance.sks_graduate }}</li>
+      </ul>
+    <a href="#" class="btn btn-block btn-danger">{% trans 'Export PDF' %}</a>
+    </div>
+  </div>
+{% endblock %}
