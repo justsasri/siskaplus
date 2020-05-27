@@ -9,8 +9,8 @@ module.exports = [{
   watch: true,
   entry: './intrasite/sources/index.js',
   output: {
-    filename: 'js/[name].bundle.js',
-    path: path.resolve(__dirname, 'intrasite/static')
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'intrasite/static/js')
   },
   devServer: {
     contentBase: path.join(__dirname, 'intrasite'),
@@ -37,13 +37,13 @@ module.exports = [{
       test: /\.(eot|svg|ttf|woff|woff2)$/i,
       loader: "file-loader",
       options: {
-        name: 'fonts/[name].[ext]'
+        name: '../fonts/[name].[ext]',
       }
     }, {
       test: /\.(png|jpe?g|gif)$/i,
       loader: 'file-loader',
       options: {
-        name: 'img/[name].[ext]',
+        name: '../img/[name].[ext]',
       }
     }]
   },
@@ -53,7 +53,7 @@ module.exports = [{
       verbose: true
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].bundle.css',
+      filename: '../css/[name].bundle.css',
       allChunks: true
     })
   ]

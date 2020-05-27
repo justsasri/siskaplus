@@ -15,7 +15,7 @@
   <table class="table small highlight">
     <thead>
     <tr>
-      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Name' %}</th>
       <th class="border-0">{% trans 'Description' %}</th>
       <th class="border-0">{% trans 'Date' %}</th>
       {% if is_mine %}
@@ -27,7 +27,7 @@
     {% with instance.awards.all as items %}
       {% for item in items %}
         <tr>
-          <td class="pl-3">{{ item.name }}</td>
+          <td>{{ item.name }}</td>
           <td>{% firstof item.description '-' %}</td>
           <td>{{ item.date }}</td>
           {% if is_mine %}

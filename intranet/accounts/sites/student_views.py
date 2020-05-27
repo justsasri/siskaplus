@@ -7,10 +7,15 @@ from django.contrib.auth.decorators import login_required
 from django_websites import messages
 
 from ...academic.models import Student
+from ..decorators import student_required
 
 
 class StudentHomeView(TemplateView):
     template_name = 'account/student.html'
+
+    @method_decorator([login_required, student_required])
+    def dispatch(self, request, *args, **kwargs):
+        return super(StudentHomeView, self).dispatch(request, *args, **kwargs)
 
 
 class StudentScoresView(TemplateView):

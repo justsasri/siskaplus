@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
-          <div class="text"><strong>Alumni</strong><br>
+          <div class="text"><strong>{{ user.primary_student.get_status_display }}</strong><br>
             <small>Status</small>
           </div>
         </div>
@@ -109,9 +109,13 @@
           <label for="account" class="sr-only">Name</label>
           <select id="account" name="account" class="form-control">
             <option>Semester 1</option>
-            <option>option 2</option>
-            <option>option 3</option>
-            <option>option 4</option>
+            <option>Semester 2</option>
+            <option>Semester 3</option>
+            <option>Semester 4</option>
+            <option>Semester 5</option>
+            <option>Semester 6</option>
+            <option>Semester 7</option>
+            <option>Semester 8</option>
           </select>
         </div>
         <div class="form-group">
@@ -137,10 +141,7 @@
           <tbody>
           {% for item in user.primary_student.get_scores %}
           <tr>
-            <td class="pl-4" scope="row">
-              <a href="{% url 'academic_course_inspect' item.course.id %}">
-                {{ item.name }}</a>
-            </td>
+            <td class="pl-4" scope="row">{{ item.name }}</td>
             <td>{{ item.old_code }}</td>
             <td class="text-center">{{ item.semester_number }}</td>
             <td class="text-center">{{ item.total }}</td>

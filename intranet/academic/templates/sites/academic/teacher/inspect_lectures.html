@@ -1,0 +1,29 @@
+{% extends 'sites/academic/teacher/inspect.html' %}
+{% load i18n static %}
+
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Profile' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Courses' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#">{% trans 'Lectures' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Students' %}</a>
+    </li>
+    <li class="nav-item d-none d-md-inline-block">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content_main %}
+
+
+{% endblock %}

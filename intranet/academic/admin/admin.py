@@ -1,26 +1,39 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
+
 from import_export.admin import ImportExportMixin, ExportActionMixin
 from import_export.formats import base_formats
 
-from ...accounts.admin import UserAdmin
-from ..models import (
-    CourseRequisite, AcademicYear, SchoolYear, CourseGroup, CourseType, Concentration,
-    ManagementUnit, Curriculum, Course, StudentScore, ConversionScore,
-    CurriculumCourse, Teacher, Student, StudentConversion, StudentConversionItem)
+from ...admin.admin import ModelAdmin
+from ..models import *
 from ..resources import (
-    StudentResource, TeacherResource,
-    CourseResource, CurriculumCourseResource,
-    StudentScoreResource)
-from ..forms import CourseForm, CurriculumForm, CurriculumCourseForm
-from .sites import academic_admin
+    CourseResource,
+    StudentResource,
+    TeacherResource,
+    StudentConversionItemResource,
+    CurriculumCourseResource)
+from ..forms import (
+    CourseForm,
+    CurriculumForm,
+    CurriculumCourseForm)
 
 
 class AcademicYearAdmin(admin.ModelAdmin):
+    actions = ['activate']
     list_display = [
         'code', 'school_year', 'semester', 'date_start', 'date_registration', 'date_preparation',
-        'date_lecture_open', 'date_lecture_end', 'date_completion', 'date_end'
+        'date_completion', 'date_end', 'is_active'
     ]
+
+    def activate(self, request, queryset):
+        if queryset.count() > 1:
+            self.message_user(request, "Please select only 1 %s " % self.opts.verbose_name)
+        else:
+            for item in queryset:
+                item.activate()
+                self.message_user(request, "%s activated" % item)
+
+    activate.short_description = _('Activate selected academic year')
 
 
 class ManagementUnitAdmin(admin.ModelAdmin):
@@ -62,28 +75,19 @@ class ProgramStudyFilter(admin.SimpleListFilter):
         return queryset
 
 
-class CurriculumAdmin(admin.ModelAdmin):
+class CurriculumAdmin(ModelAdmin):
+    inspect_enabled = True
+    inspect_template = 'admin/curriculum_inspect.html'
     form = CurriculumForm
     search_fields = ['name', 'rmu__name']
-    list_filter = [ProgramStudyFilter]
+    actions = ['activate']
+    list_filter = ['is_active', ProgramStudyFilter]
     list_select_related = ['rmu']
-    list_display = [
-        'name',
-        'rmu',
-        'sks_graduate',
-        'mandatory',
-        'choice',
-        'interest',
-        'research',
-        'meeting',
-        'practice',
-        'field_practice',
-        'simulation'
-    ]
+    list_display = ['name', 'rmu', 'year', 'sks_graduate', 'is_active']
     raw_id_fields = ['rmu']
     fieldsets = (
         (None, {
-            'fields': ('code', 'name', 'rmu', 'year', 'sks_graduate', 'is_active', 'is_primary', 'is_public')
+            'fields': ('code', 'name', 'rmu', 'year', 'sks_graduate', 'is_public')
         }),
         ('Advanced options', {
             'classes': ('collapse',),
@@ -94,6 +98,13 @@ class CurriculumAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return Curriculum.objects.get_with_summary(qs)
+
+    def activate(self, request, queryset):
+        for item in queryset:
+            item.activate()
+        self.message_user(request, "%s %s activated" % (queryset.count(), self.opts.verbose_name))
+
+    activate.short_description = _('Activate selected curriculums')
 
     def mandatory(self, obj):
         return obj.mandatory
@@ -147,10 +158,12 @@ class CoursePreRequisiteInline(admin.TabularInline):
     raw_id_fields = ['requisite']
 
 
-class CourseAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
+class CourseAdmin(ImportExportMixin, ExportActionMixin, ModelAdmin):
     form = CourseForm
     formats = (base_formats.XLSX,)
     resource_class = CourseResource
+    inspect_enabled = True
+    inspect_template = 'admin/course_inspect.html'
     search_fields = ['name', 'old_code']
     inlines = [CoursePreRequisiteInline]
     raw_id_fields = ['rmu']
@@ -170,11 +183,6 @@ class CourseAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
     )
 
 
-class CourseEqualizerAdmin(admin.ModelAdmin):
-    search_fields = ['old_course__course__name']
-    list_display = ['old_course', 'new_course', 'sks_new_course', 'sks_old_course']
-
-
 class TeacherInline(admin.TabularInline):
     min_num = 1
     model = Teacher
@@ -182,9 +190,11 @@ class TeacherInline(admin.TabularInline):
     raw_id_fields = ['rmu']
 
 
-class TeacherAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
+class TeacherAdmin(ImportExportMixin, ExportActionMixin, ModelAdmin):
     formats = (base_formats.XLSX,)
     resource_class = TeacherResource
+    inspect_enabled = True
+    inspect_template = 'admin/teacher_inspect.html'
     list_display = ['name', 'tid', 'rmu', 'is_active']
     raw_id_fields = ['account']
     search_fields = ['account__first_name', 'tid']
@@ -192,9 +202,11 @@ class TeacherAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
     list_filter = ['rmu']
 
 
-class StudentAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
+class StudentAdmin(ImportExportMixin, ExportActionMixin, ModelAdmin):
     formats = (base_formats.XLSX,)
     resource_class = StudentResource
+    inspect_enabled = True
+    inspect_template = 'admin/student_inspect.html'
     search_fields = ['account__first_name', 'student_id']
     list_select_related = ['account', 'rmu', 'year_of_force', 'coach', 'curriculum']
     list_filter = ['status', 'year_of_force', 'registration']
@@ -204,25 +216,29 @@ class StudentAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
     raw_id_fields = ['account', 'rmu', 'year_of_force', 'curriculum', 'coach']
 
 
-class StudentScoreAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
-    formats = (base_formats.XLSX,)
-    resource_class = StudentScoreResource
+class ScoreRangeAdmin(admin.ModelAdmin):
+    list_display = ['schema', 'alphabetic', 'numeric', 'min_point', 'max_point', 'predicate']
+
+
+class PlainStudentScoreAdmin(admin.ModelAdmin):
+    search_fields = []
+    raw_id_fields = ['student', 'course']
+    list_display = ['student', 'course', 'alphabetic', 'numeric']
+
+
+class ConversionStudentScoreAdmin(admin.ModelAdmin):
     search_fields = [
         'course__course__name', 'course__course__inner_id',
         'student__account__first_name', 'student__student_id'
     ]
     raw_id_fields = ['student', 'course']
-    list_display = ['student', 'course', 'numeric', 'alphabetic']
+    list_display = ['student', 'course', 'sks', 'alphabetic', 'numeric', 'point',
+                    'ori_code', 'ori_name', 'ori_numeric', 'ori_alphabetic']
 
 
-class ConversionScoreAdmin(admin.ModelAdmin):
-    search_fields = [
-        'course__course__name', 'course__course__inner_id',
-        'student__account__first_name', 'student__student_id'
-    ]
-    raw_id_fields = ['student', 'course']
-    list_display = ['student', 'course', 'ori_code', 'ori_name', 'ori_numeric_score',
-                    'ori_alphabetic_score', 'alphabetic']
+class StudentConversionItemAdmin(ImportExportMixin, admin.ModelAdmin):
+    resource_class = StudentConversionItemResource
+    list_display = ['conversion', 'course']
 
 
 class StudentConversionItemInline(admin.StackedInline):
@@ -231,40 +247,83 @@ class StudentConversionItemInline(admin.StackedInline):
     model = StudentConversionItem
     raw_id_fields = ['course']
 
-class StudentConversionAdmin(admin.ModelAdmin):
-    list_display = ['student', 'inner_id', 'created_at']
+
+class StudentConversionAdmin(ModelAdmin):
+    inspect_enabled = True
+    inspect_template = 'admin/conversion_inspect.html'
+    list_display = ['inner_id', 'student', 'ori_institution_name', 'created_at', 'status', 'is_trash']
     list_select_related = ['student']
+    search_fields = ['student__account__name']
     inlines = [StudentConversionItemInline]
     raw_id_fields = ['student']
+    actions = ['mark_as_draft', 'mark_as_valid', 'mark_as_posted', 'mark_as_canceled', 'trash', 'restore']
 
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            return obj.is_editable and super().has_change_permission(request, obj)
 
-admin.site.register(SchoolYear, admin.ModelAdmin)
-admin.site.register(AcademicYear, admin.ModelAdmin)
-admin.site.register(CourseType, admin.ModelAdmin)
-admin.site.register(CourseGroup, admin.ModelAdmin)
-admin.site.register(Concentration, admin.ModelAdmin)
-admin.site.register(Course, CourseAdmin)
-admin.site.register(ManagementUnit, ManagementUnitAdmin)
-admin.site.register(Curriculum, CurriculumAdmin)
-admin.site.register(CurriculumCourse, CurriculumCourseAdmin)
-admin.site.register(Student, StudentAdmin)
-admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(StudentScore, StudentScoreAdmin)
-admin.site.register(ConversionScore, ConversionScoreAdmin)
-admin.site.register(StudentConversion, StudentConversionAdmin)
+    def trash(self, request, queryset):
+        for item in queryset:
+            item.delete(paranoid=True, user=request.user)
+        if queryset.count() == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully marked as trash." % message_bit)
 
-academic_admin.register(SchoolYear, admin.ModelAdmin)
-academic_admin.register(AcademicYear, admin.ModelAdmin)
-academic_admin.register(CourseType, admin.ModelAdmin)
-academic_admin.register(CourseGroup, admin.ModelAdmin)
-academic_admin.register(Concentration, admin.ModelAdmin)
-academic_admin.register(Course, CourseAdmin)
-academic_admin.register(ManagementUnit, ManagementUnitAdmin)
-academic_admin.register(Curriculum, CurriculumAdmin)
-academic_admin.register(CurriculumCourse, CurriculumCourseAdmin)
-academic_admin.register(Student, StudentAdmin)
-academic_admin.register(Teacher, TeacherAdmin)
-academic_admin.register(StudentScore, StudentScoreAdmin)
-academic_admin.register(ConversionScore, ConversionScoreAdmin)
-academic_admin.register(get_user_model(), UserAdmin)
-academic_admin.register(StudentConversion, StudentConversionAdmin)
+    trash.short_description = _('Move selected Student Conversion to trash')
+
+    def restore(self, request, queryset):
+        for item in queryset:
+            item.restore()
+        if queryset.count() == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully restored." % message_bit)
+
+    restore.short_description = _('Restore selected Student Conversion')
+
+    def mark_as_draft(self, request, queryset):
+        for item in queryset:
+            item.mark_as_draft()
+        if queryset.count() == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully marked as draft." % message_bit)
+
+    mark_as_draft.short_description = _('Draft selected Student Conversion')
+
+    def mark_as_valid(self, request, queryset):
+        for item in queryset:
+            item.mark_as_valid()
+        if queryset.count() == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully marked as valid." % message_bit)
+
+    mark_as_valid.short_description = _('Validate selected Student Conversion')
+
+    def mark_as_canceled(self, request, queryset):
+        for item in queryset:
+            item.mark_as_canceled()
+        if queryset == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully canceled." % message_bit)
+
+    mark_as_canceled.short_description = _('Cancel selected Student Conversion')
+
+    def mark_as_posted(self, request, queryset):
+        for item in queryset:
+            item.mark_as_posted()
+        if queryset == 1:
+            message_bit = "1 student conversion was"
+        else:
+            message_bit = "%s student conversions were" % queryset.count()
+        self.message_user(request, "%s successfully posted." % message_bit)
+
+    mark_as_posted.short_description = _('Post selected Student Conversion')

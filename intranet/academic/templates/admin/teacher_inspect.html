@@ -1,0 +1,76 @@
+{% extends "admin/inspect.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+  .sidebar {
+    font-size: 13px;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>{% blocktrans with opts.verbose_name as name %}Inspecting {{ name }}: {{ instance }}{% endblocktrans %}</h1>
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+
+  {% if instance.courses.all %}
+  <div class="module">
+    <h2>{% trans 'Courses' %}</h2>
+    <div class="curriculum-course-table bg-white mb-4 border">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-small mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">Nama MK</th>
+            <th class="border-0" width="100" scope="col">Kode</th>
+            <th class="border-0 text-center" width="30" scope="col">MT</th>
+            <th class="border-0 text-center" width="30" scope="col">PC</th>
+            <th class="border-0 text-center" width="30" scope="col">PF</th>
+            <th class="border-0 text-center" width="30" scope="col">SM</th>
+            <th class="border-0 text-center pr-4" width="30" scope="col">ST</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for item in instance.courses.all %}
+            <tr>
+              <td class="pl-4" scope="row">
+                <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
+              </td>
+              <td>{{ item.old_code }}</td>
+              <td class="text-center">{{ item.meeting }}</td>
+              <td class="text-center">{{ item.practice }}</td>
+              <td class="text-center">{{ item.field_practice }}</td>
+              <td class="text-center">{{ item.simulation }}</td>
+              <td class="text-center pr-4">{{ item.total }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div id="content-related" class="sidebar">
+  <div class="module">
+    <h2>#{{ instance.tid }}</h2>
+    <p>{{ opts.verbose_name | title }} {% trans 'Detail' %} :</p>
+    <p><strong>{% trans 'Active' %}:</strong><br/>{{ instance.is_active }}</p>
+    <p><strong>{% trans 'Management Unit' %}:</strong><br/>{{ instance.rmu }}</p>
+  </div>
+  <div class="module button_actions"></div>
+</div>
+{% endblock %}

@@ -18,8 +18,8 @@ _ = translation.gettext_lazy
 
 class Teacher(BaseModel):
     class Meta:
-        verbose_name = _('teacher')
-        verbose_name_plural = _('teachers')
+        verbose_name = _('Teacher')
+        verbose_name_plural = _('Teachers')
 
     objects = TeacherManager()
     account = models.OneToOneField(
@@ -58,6 +58,9 @@ class Teacher(BaseModel):
         return get_user_gravatar(self.account)
 
     def get_absolute_url(self):
+        return reverse('admin:intranet_academic_teacher_inspect', args=(self.id,))
+
+    def get_public_url(self):
         return reverse('academic_teacher_inspect', args=(self.id,))
 
     def natural_key(self):

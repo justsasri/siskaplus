@@ -1,0 +1,70 @@
+{% extends "admin/inspect.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+ .sidebar {
+   font-size: 13px;
+ }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>{% blocktrans with opts.verbose_name as name %}Inspecting {{ name }}: {{ instance }}{% endblocktrans %}</h1>
+  <h2 class="subhead">{% trans 'Converted Scores' %}</h2>
+  <div class="module">
+    <table class="model">
+      <thead>
+      <tr>
+        <th>{% trans 'Code' %}</th>
+        <th>{% trans 'Course' %}</th>
+        <th>{% trans 'Numeric' %}</th>
+        <th>{% trans 'Alphabetic' %}</th>
+        <th>{% trans 'Ori Code' %}</th>
+        <th>{% trans 'Ori Name' %}</th>
+        <th>{% trans 'Ori Numeric' %}</th>
+        <th>{% trans 'Ori Alphabetic' %}</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for item in instance.conversion_items.all %}
+      <tr>
+        <td>{{ item.course.course_code }}</td>
+        <td>{{ item.course.name }}</td>
+        <td>{{ item.numeric }}</td>
+        <td>{{ item.alphabetic }}</td>
+        <td>{{ item.ori_name }}</td>
+        <td>{{ item.ori_code }}</td>
+        <td>{{ item.ori_numeric }}</td>
+        <td>{{ item.ori_alphabetic }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div id="content-related" class="sidebar">
+  <div class="module">
+    <h2>{{ instance.inner_id }}</h2>
+    <p>{{ opts.verbose_name }} {% trans 'Detail' %} :</p>
+    <p><strong>{% trans 'Student name' %}:</strong><br/>{{ instance.student }}</p>
+    <p><strong>{% trans 'Student ID' %}:</strong><br/>{{ instance.student.student_id }}</p>
+    <p><strong>{% trans 'Ori Institution' %}:</strong><br/>{{ instance.ori_institution_name }}</p>
+    <p><strong>{% trans 'Ori Program Study' %}:</strong><br/>{{ instance.ori_program_study }}</p>
+    <p><strong>{% trans 'Ori Year of Force' %}:</strong><br/>{{ instance.ori_year_of_force }}</p>
+    <p><strong>{% trans 'Score Status' %}:</strong><br/>{{ instance.get_status_display }}</p>
+  </div>
+  <div class="module button_actions"></div>
+</div>
+{% endblock %}

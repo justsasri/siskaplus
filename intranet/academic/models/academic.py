@@ -11,7 +11,13 @@ from django_numerators.models import NumeratorReset, NumeratorMixin
 from ...core.models import BaseModel
 from ...core.enums import MaxLength
 from ..enums import ManagementLevel, Semester, KKNILevel
-from .managers import ManagementUnitManager, CurriculumManager, CourseManager, CurriculumCourseManager
+from .managers import (
+    ManagementUnitManager,
+    AcademicYearManager,
+    CurriculumManager,
+    CourseManager,
+    CurriculumCourseManager
+)
 
 _ = translation.gettext_lazy
 
@@ -123,6 +129,8 @@ class AcademicYear(BaseModel):
         verbose_name = _("academic year")
         verbose_name_plural = _("academic years")
 
+    objects = AcademicYearManager()
+
     code = models.CharField(
         unique=True, editable=False,
         max_length=MaxLength.MEDIUM.value,
@@ -162,6 +170,9 @@ class AcademicYear(BaseModel):
     school_year = models.ForeignKey(
         SchoolYear, on_delete=models.PROTECT,
         verbose_name=_("school year"))
+    is_active = models.BooleanField(
+        default=False, editable=False,
+        verbose_name=_('Active'))
 
     def __str__(self):
         return self.code
@@ -172,6 +183,14 @@ class AcademicYear(BaseModel):
     def save(self, *args, **kwargs):
         self.code = "{} S{}".format(self.school_year, self.semester)
         super().save(*args, **kwargs)
+
+    def activate(self):
+        old_primary = AcademicYear.objects.get_active()
+        if old_primary:
+            old_primary.is_active = False
+            old_primary.save()
+        self.is_active = True
+        self.save()
 
 
 class CourseType(BaseModel):
@@ -372,8 +391,11 @@ class Course(NumeratorMixin, BaseModel):
         )
         super().save(**kwargs)
 
-    def get_absolute_url(self):
+    def get_public_url(self):
         return reverse('academic_course_inspect', args=(self.id,))
+
+    def get_absolute_url(self):
+        return reverse('admin:intranet_academic_course_inspect', args=(self.id,))
 
 
 class CourseRequisite(BaseModel):
@@ -444,12 +466,10 @@ class Curriculum(BaseModel):
         max_length=MaxLength.RICHTEXT.value,
         verbose_name=_("description"))
     is_active = models.BooleanField(
-        default=True, verbose_name=_('active'))
+        default=False, editable=False,
+        verbose_name=_('active'))
     is_public = models.BooleanField(
         default=True, verbose_name=_('public'))
-    is_primary = models.BooleanField(
-        verbose_name=_('primary'),
-        default=False)
 
     def __str__(self):
         return self.name
@@ -464,23 +484,21 @@ class Curriculum(BaseModel):
         self.create_code()
         super().save(*args, **kwargs)
 
-    def set_as_primary(self):
-        old_primary = Curriculum.objects.get_primary(self.rmu)
-        if old_primary:
-            old_primary.primary = False
-            old_primary.save()
-        self.is_primary = True
-        self.save()
+    def get_absolute_url(self):
+        return reverse('admin:intranet_academic_curriculum_inspect', args=(self.id,))
+
+    def get_public_url(self):
+        return reverse('academic_curriculum_inspect', args=(self.id,))
 
     def activate(self):
+        old_actives = Curriculum.objects.get_active(self.rmu)
+        if old_actives.count():
+            old_actives.update(is_active=False)
         self.is_active = True
         self.save()
 
     def get_summary(self):
         return Curriculum.objects.get_with_summary().get(pk=self.id)
-
-    def get_absolute_url(self):
-        return reverse('academic_curriculum_inspect', args=(self.id,))
 
     def get_curriculum_courses_items(self):
         values = [

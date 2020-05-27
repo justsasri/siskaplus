@@ -11,100 +11,45 @@
 {% endblock %}
 
 {% block page_title %}
-  <h1 class="display-5 text-white">{{ instance | title }}</h1>
+  <h1 class="page-title">{{ instance | title }}</h1>
 {% endblock %}
 
 
-{% block page_subtitle %}
-  {% if instance.summary %}
-    <p>{{ instance.summary | safe }}</p>
-  {% endif %}
-  <div class="page-header__meta">
-    {% if instance.rmu %}
-      <p><strong>{{ instance.rmu }}</strong></p>
-    {% endif %}
-  </div>
+{% block page_subtitle %}{% endblock %}
+
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'academic_teacher_inspect' instance_pk=instance.id %}">{% trans 'Profile' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'academic_teacher_courses' instance_pk=instance.id %}">{% trans 'Courses' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Students' %}</a>
+    </li>
+    <li class="nav-item d-none d-md-inline-block">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
 {% endblock %}
 
 {% block content_main_class %}col-md-9{% endblock %}
 {% block content_main %}
-  <h4 class="font-weight-bold mb-3">{% trans 'Courses' %}</h4>
-  <div class="curriculum-course-table bg-white mb-4 border">
-    {% with instance.courses.all as results %}
-      {% if results %}
-      <div class="table-responsive">
-        <table class="table table-sm table-hover table-small mb-0">
-          <thead>
-          <tr>
-            <th class="border-0 pl-4" scope="col">{% trans 'Name' %}</th>
-            <th class="border-0" width="100" scope="col">{% trans 'Code' %}</th>
-            <th class="border-0 text-center" width="30" scope="col">MT</th>
-            <th class="border-0 text-center" width="30" scope="col">PC</th>
-            <th class="border-0 text-center" width="30" scope="col">PF</th>
-            <th class="border-0 text-center" width="30" scope="col">SM</th>
-            <th class="border-0 text-center pr-4" width="30" scope="col">ST</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for item in results %}
-            <tr>
-              <td class="pl-4" scope="row">
-                <a href="{% url 'academic_course_inspect' item.id %}">
-                  {{ item.name }}</a>
-              </td>
-              <td>{{ item.old_code }}</td>
-              <td class="text-center">{{ item.meeting }}</td>
-              <td class="text-center">{{ item.practice }}</td>
-              <td class="text-center">{{ item.field_practice }}</td>
-              <td class="text-center">{{ item.simulation }}</td>
-              <td class="text-center pr-4">{{ item.total }}</td>
-            </tr>
-          {% endfor %}
-          </table>
-        </div>
-      {% else %}
-        <div class="p-3">{% trans 'No student here.' %}</div>
-      {% endif %}
-    {% endwith %}
-  </div>
-
-
-  <h4 class="font-weight-bold mb-3">{% trans 'Students' %}</h4>
-  <div class="curriculum-course-table bg-white mb-4 border">
-  {% with instance.students.all as results %}
-    {% if results %}
-    <div class="table-responsive">
-      <table class="table table-sm table-hover table-small mb-0">
-        <thead>
-        <tr>
-          <th class="border-0 pl-4" scope="col">{% trans 'Name' %}</th>
-          <th class="border-0" width="100" scope="col">{% trans 'Student ID' %}</th>
-          <th class="border-0" scope="col">{% trans 'Program Study' %}</th>
-          <th class="border-0 text-center" scope="col">{% trans 'Year of Force' %}</th>
-          <th class="border-0 text-center pr-4" width="30" scope="col">{% trans 'Status' %}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in results %}
-          <tr>
-            <td class="pl-4" scope="row">
-              <a href="{% url 'academic_student_inspect' item.id %}">
-                {{ item }}</a>
-            </td>
-            <td>{{ item.student_id }}</td>
-            <td>{{ item.rmu }}</td>
-            <td class="text-center">{{ item.year_of_force }}</td>
-            <td class="text-center pr-4">{{ item.get_status_display }}</td>
-          </tr>
-        {% endfor %}
-      </table>
-    </div>
-    {% else %}
-      <div class="p-3">{% trans 'No student here.' %}</div>
-    {% endif %}
-  {% endwith %}
-  </div>
-
+  {% include 'profile/includes/address.html' with card_name='personaddress' instance=instance.account.person %}
+  {% include 'profile/includes/skill.html' with card_name='skill' instance=instance.account.person %}
+  {% include 'profile/includes/formal_education.html' with card_name='formaleducation' instance=instance.account.person %}
+  {% include 'profile/includes/nonformal_education.html' with card_name='nonformaleducation' instance=instance.account.person %}
+  {% include 'profile/includes/working.html' with card_name='work' instance=instance.account.person %}
+  {% include 'profile/includes/volunteer.html' with card_name='volunteer' instance=instance.account.person %}
+  {% include 'profile/includes/award.html' with card_name='award' instance=instance.account.person %}
+  {% include 'profile/includes/publication.html' with card_name='publication' instance=instance.account.person %}
+  {% include 'profile/includes/family_relationship.html' with card_name='family' instance=instance.account.person %}
 {% endblock %}
 
 {% block content_sidebar_class %}col-md-3{% endblock %}

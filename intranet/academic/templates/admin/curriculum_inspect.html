@@ -1,0 +1,103 @@
+{% extends "admin/inspect.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+ .sidebar {
+   font-size: 13px;
+ }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>{% blocktrans with opts.verbose_name as name %}Inspecting {{ name }}: {{ instance }}{% endblocktrans %}</h1>
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+  {% with instance.get_courses_by_semester as semesters %}
+    {% if semesters %}
+
+    {% for semester in semesters %}
+      <div class="module">
+        <h2>Semester {{ semester.number }}</h2>
+        <div class="curriculum-course-table bg-white mb-4 border">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-small mb-0">
+              <thead>
+              <tr>
+                <th class="border-0 pl-4" scope="col">Nama MK</th>
+                <th class="border-0" width="150" scope="col"></th>
+                <th class="border-0" width="100" scope="col">Kode</th>
+                <th class="border-0 text-center" width="30" scope="col">MT</th>
+                <th class="border-0 text-center" width="30" scope="col">PC</th>
+                <th class="border-0 text-center" width="30" scope="col">PF</th>
+                <th class="border-0 text-center" width="30" scope="col">SM</th>
+                <th class="border-0 text-center pr-4" width="30" scope="col">ST</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in semester.curriculum_courses %}
+                <tr>
+                  <td class="pl-4" scope="row">
+                    <a href="{% url 'admin:intranet_academic_course_inspect' item.course__id %}">{{ item.name }}</a>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">{{ item.type_alias }}</span>
+                    <span class="badge badge-primary">{{ item.group_alias }}</span>
+                    {% if  item.concentration__code %}
+                      <span class="badge badge-success">{{ item.concentration__code }}</span>
+                    {% endif %}
+                  <td>{{ item.old_code }}</td>
+                  <td class="text-center">{{ item.meeting }}</td>
+                  <td class="text-center">{{ item.practice }}</td>
+                  <td class="text-center">{{ item.field_practice }}</td>
+                  <td class="text-center">{{ item.simulation }}</td>
+                  <td class="text-center pr-4">{{ item.total }}</td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <th class="pl-4" colspan="3" scope="row">Total {{ semester.course_count }} {% trans 'courses' %}</th>
+                <td class="text-center">{{ semester.meeting }}</td>
+                <td class="text-center">{{ semester.practice }}</td>
+                <td class="text-center">{{ semester.field_practice }}</td>
+                <td class="text-center">{{ semester.simulation }}</td>
+                <td class="text-center pr-3">{{ semester.total }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div id="content-related" class="sidebar">
+  <div class="module">
+    <h2>{{ instance.code }}</h2>
+    <p>{{ opts.verbose_name }} {% trans 'Detail' %} :</p>
+    <p><strong>{% trans 'Name' %}:</strong><br/>{{ instance.name }}</p>
+    <p><strong>{% trans 'Course' %}:</strong><br/>{{ instance.curriculum_courses.count }}</p>
+    <p><strong>{% trans 'SKS Graduate' %}:</strong><br/>{{ instance.sks_graduate }}</p>
+    <p><strong>{% trans 'SKS Mandatory' %}:</strong><br/>{{ instance.mandatory }}</p>
+    <p><strong>{% trans 'Choice' %}:</strong><br/>{{ instance.choice }}</p>
+    <p><strong>{% trans 'Interest' %}:</strong><br/>{{ instance.interest }}</p>
+    <p><strong>{% trans 'Research' %}:</strong><br/>{{ instance.research }}</p>
+    <p><strong>{% trans 'Meeting' %}:</strong><br/>{{ instance.meeting }}</p>
+    <p><strong>{% trans 'Practice' %}:</strong><br/>{{ instance.practice }}</p>
+    <p><strong>{% trans 'Field Practice' %}:</strong><br/>{{ instance.field_practice }}</p>
+    <p><strong>{% trans 'Field Simulation' %}:</strong><br/>{{ instance.simulation }}</p>
+  </div>
+  <div class="module button_actions"></div>
+</div>
+{% endblock %}

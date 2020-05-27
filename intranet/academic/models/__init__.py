@@ -5,4 +5,11 @@ from .academic import (
 )
 from .teachers import Teacher
 from .students import Student
-from .scores import Score, StudentScore, ConversionScore, StudentConversion, StudentConversionItem
+from .scores import (
+    ScoreRange,
+    StudentScore,
+    PlainStudentScore,
+    ConversionStudentScore,
+    StudentConversion,
+    StudentConversionItem
+)

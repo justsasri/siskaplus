@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"fonts/academic_logo.svg\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/academic_logo.svg?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../fonts/academic_logo.svg\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/academic_logo.svg?");
 
 /***/ }),
 
@@ -106,7 +106,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"img/logo.png\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/logo.png?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../img/logo.png\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/logo.png?");
 
 /***/ }),
 
@@ -117,18 +117,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// SCSS or SASS here\n__webpack_require__(/*! ./main.scss */ \"./intrasite/sources/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./intrasite/sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./intrasite/sources/img/academic_logo.svg\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./intrasite/sources/index.js?");
+eval("// SCSS or SASS here\n__webpack_require__(/*! ./scss/main.scss */ \"./intrasite/sources/scss/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./intrasite/sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./intrasite/sources/img/academic_logo.svg\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./intrasite/sources/index.js?");
 
 /***/ }),
 
-/***/ "./intrasite/sources/main.scss":
-/*!*************************************!*\
-  !*** ./intrasite/sources/main.scss ***!
-  \*************************************/
+/***/ "./intrasite/sources/scss/main.scss":
+/*!******************************************!*\
+  !*** ./intrasite/sources/scss/main.scss ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./intrasite/sources/main.scss?");
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./intrasite/sources/scss/main.scss?");
 
 /***/ }),
 

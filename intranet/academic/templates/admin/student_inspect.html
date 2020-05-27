@@ -1,0 +1,90 @@
+{% extends "admin/inspect.html" %}
+{% load i18n admin_urls static admin_modify core_tags academic_tags %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+  .sidebar {
+    font-size: 13px;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>{% blocktrans with opts.verbose_name as name %}Inspecting {{ name }}: {{ instance }}{% endblocktrans %}</h1>
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+
+  {% regroup instance.get_scores by semester_number as semester_list %}
+
+  {% for semester in semester_list %}
+  <div class="module">
+    <h2 class="font-weight-bold mb-3">{% trans 'Semester' %} {{ semester.grouper }}</h2>
+    <div class="table-card bg-white mb-4 border">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-small mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">Nama MK</th>
+            <th class="border-0" width="100" scope="col">Kode</th>
+            <th class="border-0 pr-4" width="30" scope="col">Status</th>
+            <th class="border-0 text-center" width="50" scope="col">SKS</th>
+            <th class="border-0 text-center" width="50" scope="col">Angka</th>
+            <th class="border-0 text-center" width="50" scope="col">Huruf</th>
+            <th class="border-0 text-center" width="50" scope="col">Point</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for item in semester.list  %}
+          <tr>
+            <td class="pl-4" scope="row">
+              <a href="{{ item.course.get_absolute_url }}">
+                {{ item.name }}</a>
+            </td>
+            <td>{{ item.old_code }}</td>
+            <td>
+              <span class="badge badge-{{ item.alphabetic | score_classname }} small">
+                {{ item.alphabetic | score_status }}
+              </span>
+            </td>
+            <td class="text-center">{{ item.total }}</td>
+            <td class="text-center">{% firstof item.numeric '-' %}</td>
+            <td class="text-center">{% if item.point is None %}-{% else %}{{ item.point }}{% endif%}</td>
+            <td class="text-center">{% firstof item.alphabetic '-' %}</td>
+          </tr>
+          {% endfor %}
+          {% score_summary instance semester.grouper as summary %}
+          <tr>
+            <td class="pl-4" colspan="3" scope="row"><strong>{% trans 'Summary' %}</strong></td>
+            <td class="text-center"><strong>{{ summary.sks_total }}</strong></td>
+            <td class="text-center"><strong></strong></td>
+            <td class="text-center"><strong>{{ summary.total_point }}</strong></td>
+            <td class="text-center"><strong>{{ summary.ips | money }}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div id="content-related" class="sidebar">
+  <div class="module">
+    <h2>#{{ instance.student_id }}</h2>
+    <p>{{ opts.verbose_name | title }} {% trans 'Detail' %} :</p>
+    <p><strong>{% trans 'Program Study' %}:</strong><br/>{{ instance.rmu }}</p>
+    <p><strong>{% trans 'Status' %}:</strong><br/>{{ instance.get_status_display }}</p>
+  </div>
+  <div class="module button_actions"></div>
+</div>
+{% endblock %}

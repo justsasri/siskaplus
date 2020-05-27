@@ -14,6 +14,7 @@ from .models import (
     CourseType,
     Teacher,
     Student,
+    ConversionStudentScore
 )
 
 

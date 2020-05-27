@@ -10,6 +10,14 @@ from ...core.managers import count_subquery, cumulative_count_subquery
 _ = translation.gettext_lazy
 
 
+class AcademicYearManager(models.Manager):
+    def get_active(self):
+        try:
+            return self.filter(is_active=True).first()
+        except self.model.DoesNotExist:
+            return None
+
+
 class ManagementUnitManager(TreeManager):
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs)
@@ -49,9 +57,9 @@ class CurriculumManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()
 
-    def get_primary(self, rmu):
+    def get_active(self, rmu):
         try:
-            return self.get(rmu=rmu, is_primary=True)
+            return self.filter(rmu=rmu, is_active=True)
         except self.model.DoesNotExist:
             return None
 
@@ -214,3 +222,8 @@ class StudentManager(models.Manager):
             return self.get(account=user, primary=True)
         except self.model.DoesNotExist:
             return None
+
+
+class StudentConversionManager(models.Manager):
+    def get_by_natural_key(self, inner_id):
+        return self.get(inner_id=inner_id)

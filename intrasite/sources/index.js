@@ -1,5 +1,5 @@
 // SCSS or SASS here
-require('./main.scss');
+require('./scss/main.scss');
 
 // Images
 require('./img/logo.png');

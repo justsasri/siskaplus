@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 from django_websites.options import ModelSite, ModelSiteGroup
+from django_websites.views import InspectView
 
 from ..lectures.models import Lecture
 from ..lectures.enums import LectureStatus
@@ -60,10 +61,26 @@ class CourseModelSite(ModelSite):
     select_related = ['rmu', 'course_type', 'course_group']
 
 
+class TeacherInspectCoursesView(InspectView):
+    template_name = 'sites/academic/teacher/inspect_courses.html'
+
+
 class TeacherModelSite(ModelSite):
     model = Teacher
     filterset_class = TeacherFilter
     inspect_view_enabled = True
+    inspect_courses_view_class = TeacherInspectCoursesView
+    def get_urls(self):
+        urls = super().get_urls()
+        urls += [
+            path('teacher/inspect/<str:instance_pk>/courses/', self.inspect_courses_view, name='academic_teacher_courses'),
+        ]
+        return urls
+
+    def inspect_courses_view(self, request, instance_pk):
+        kwargs = {'modelsite': self, 'instance_pk': instance_pk}
+        view_class = self.inspect_courses_view_class
+        return view_class.as_view(**kwargs)(request)
 
 
 class StudentModelSite(ModelSite):
@@ -89,25 +106,11 @@ class StudentModelSite(ModelSite):
         return render(request, 'sites/profile/public.html', context=context)
 
 
-
-class LectureModelSite(ModelSite):
-    model = Lecture
-    index_view_enabled = True
-    inspect_view_enabled = True
-    filterset_class = LectureFilter
-    select_related = ['curriculum_course', 'teacher', 'room']
-
-    def get_queryset(self, request):
-        qs = super(LectureModelSite, self).get_queryset(request)
-        return qs.filter(status=LectureStatus.PUBLISHED.value)
-
-
 class AcademicSiteGroup(ModelSiteGroup):
     namespace = 'academic'
     items = [
         CourseModelSite,
         CurriculumModelSite,
-        LectureModelSite,
         TeacherModelSite,
         StudentModelSite
     ]

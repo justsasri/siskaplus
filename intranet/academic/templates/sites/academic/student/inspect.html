@@ -1,90 +1,104 @@
 {% extends 'sites/academic/base.html' %}
-{% load i18n static %}
+{% load i18n static academic_tags %}
 
-{% block extra_css %}
-{{ block.super }}
-<style>
-  .course__sks-number {
-    background: #fbfbfb;
-  }
-</style>
-{% endblock %}
 
 {% block breadcrumb_items %}
 <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'academic_student_index' %}">{{ opts.verbose_name_plural | title }}</a></li>
 <li class="breadcrumb-item active" aria-current="page">{{ instance | title }}</li>
 {% endblock %}
 
+
 {% block page_title %}
-<h1 class="display-5 text-white">{{ instance | title }}</h1>
+<h1 class="page-title">{{ instance | title }}</h1>
 {% endblock %}
+{% block page_subtitle %}{% endblock %}
 
 
-{% block page_subtitle %}
-{% if instance.summary %}
-<p>{{ instance.summary | safe }}</p>
-{% endif %}
-<div class="page-header__meta">
-  {% if instance.rmu %}
-  <p>
-    <span class="mr-2"><strong>{% trans 'Program Study' %}</strong>: {{ instance.rmu }}</span>
-    <span class="mr-2"><strong>{% trans 'Coach' %}</strong>: {% firstof instance.coach '-' %}</span>
-  </p>
-  {% endif %}
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">{% trans 'Profile' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Scores' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
 </div>
 {% endblock %}
+
 
 {% block content_main_class %}col-md-9{% endblock %}
-
 {% block content_main %}
-<h4 class="font-weight-bold mb-3">{% trans 'Student Scores' %}</h4>
-<div class="table-card bg-white mb-4 border">
-  <div class="table-responsive">
-    <table class="table table-sm table-hover table-small mb-0">
-      <thead>
-      <tr>
-        <th class="border-0 pl-4" scope="col">Nama MK</th>
-        <th class="border-0" width="100" scope="col">Kode</th>
-        <th class="border-0 text-center" width="100" scope="col">Semester</th>
-        <th class="border-0 text-center" width="100" scope="col">SKS</th>
-        <th class="border-0 text-center" width="50" scope="col">Angka</th>
-        <th class="border-0 text-center" width="50" scope="col">Huruf</th>
-        <th class="border-0 pr-4" width="30" scope="col">Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for item in instance.get_scores %}
-      <tr>
-        <td class="pl-4" scope="row">
-          <a href="{% url 'academic_course_inspect' item.course.id %}">
-            {{ item.name }}</a>
-        </td>
-        <td>{{ item.old_code }}</td>
-        <td class="text-center">{{ item.semester_number }}</td>
-        <td class="text-center">{{ item.total }}</td>
-        <td class="text-center">{% firstof item.numeric '-' %}</td>
-        <td class="text-center">{% firstof item.alphabetic '-' %}</td>
-        <td class="pr-4">
-          <span class="badge badge-{{ item.score_classname }} small">
-            {{ item.score_status }}
-          </span>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
+
+  {% include 'profile/includes/address.html' with card_name='personaddress' instance=instance.account.person %}
+  {% include 'profile/includes/skill.html' with card_name='skill' instance=instance.account.person %}
+  {% include 'profile/includes/formal_education.html' with card_name='formaleducation' instance=instance.account.person %}
+  {% include 'profile/includes/nonformal_education.html' with card_name='nonformaleducation' instance=instance.account.person %}
+  {% include 'profile/includes/working.html' with card_name='work' instance=instance.account.person %}
+  {% include 'profile/includes/volunteer.html' with card_name='volunteer' instance=instance.account.person %}
+  {% include 'profile/includes/award.html' with card_name='award' instance=instance.account.person %}
+  {% include 'profile/includes/publication.html' with card_name='publication' instance=instance.account.person %}
+  {% include 'profile/includes/family_relationship.html' with card_name='family' instance=instance.account.person %}
+
+  {% regroup instance.get_scores by semester_number as semester_list %}
+
+  {% for semester in semester_list %}
+  <h4 class="font-weight-bold mb-3">{% trans 'Semester' %} {{ semester.grouper }}</h4>
+  <div class="table-card bg-white mb-4 border">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-small mb-0">
+        <thead>
+        <tr>
+          <th class="border-0 pl-4" scope="col">Nama MK</th>
+          <th class="border-0" width="100" scope="col">Kode</th>
+          <th class="border-0 text-center" width="100" scope="col">Semester</th>
+          <th class="border-0 text-center" width="100" scope="col">SKS</th>
+          <th class="border-0 text-center" width="50" scope="col">Angka</th>
+          <th class="border-0 text-center" width="50" scope="col">Huruf</th>
+          <th class="border-0 pr-4" width="30" scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in semester.list  %}
+        <tr>
+          <td class="pl-4" scope="row">
+            <a href="{% url 'academic_course_inspect' item.course.id %}">
+              {{ item.name }}</a>
+          </td>
+          <td>{{ item.old_code }}</td>
+          <td class="text-center">{{ item.semester_number }}</td>
+          <td class="text-center">{{ item.total }}</td>
+          <td class="text-center">{% firstof item.numeric '-' %}</td>
+          <td class="text-center">{% firstof item.alphabetic '-' %}</td>
+          <td class="pr-4">
+            <span class="badge badge-{{ item.alphabetic | score_classname }} small">
+              {{ item.alphabetic | score_status }}
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   </div>
-</div>
+  {% endfor %}
 {% endblock %}
 
 {% block content_sidebar_class %}col-md-3{% endblock %}
 {% block content_sidebar %}
-<div class="sidebar__widget">
-  <div class="user-view mt-3">
-    <a href="{% if instance.account.person %}{% url 'public_profile' username=instance.account.username %}{% else %}#{% endif %}">
-      <img src="{{ instance.account.gravatar }}" alt="Avatar" class="avatar avatar-lg avatar-center rounded-circle ">
-    </a>
-    <span class="name mt-3">{{ instance }}</span>
-    <span class="email">{{ instance.account.primary_email }}</span>
+  <div class="sidebar__widget">
+    <div class="user-view mt-3">
+      <a href="{% if instance.account.person %}{% url 'public_profile' username=instance.account.username %}{% else %}#{% endif %}">
+        <img src="{{ instance.account.gravatar }}" alt="Avatar" class="avatar avatar-lg avatar-center rounded-circle ">
+      </a>
+      <span class="name mt-3">{{ instance }}</span>
+      <span class="email">{{ instance.account.primary_email }}</span>
+    </div>
   </div>
-</div>
 {% endblock %}

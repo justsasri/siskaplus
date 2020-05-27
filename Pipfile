@@ -16,6 +16,9 @@ django-debug-toolbar = "*"
 mkdocs = "==1.0.4"
 mkdocs-material = "==4.6.0"
 mkdocs-pdf-export-plugin = "*"
+pycodestyle = "*"
+pyflakes = "*"
+qtconsole = "*"
 
 [packages]
 wagtail = "*"
@@ -43,7 +46,11 @@ django-constance = {extras = ["database"],version = "*"}
 django-activity-stream = "*"
 django-jsonfield = "*"
 django-heroku = "*"
-qrcode = {extras = ["pil"],version = "*"}
+django-numerators = "*"
+django-personals = "*"
+django-qrcodes = "*"
+django-websites = "*"
+django-trumbo = "*"
 psycopg2 = "*"
 gunicorn = "*"
 boto3 = "*"

@@ -12,10 +12,10 @@
 {% block card_content %}
 {% if instance.addresses.all %}
 <div class="table-responsive">
-  <table class="table small highlight">
+  <table class="table table-sm highlight">
     <thead>
     <tr>
-      <th class="border-0 pl-3">{% trans 'Address' %}</th>
+      <th class="border-0">{% trans 'Address' %}</th>
       <th class="border-0">{% trans 'City' %}</th>
       <th class="border-0">{% trans 'Province' %}</th>
       <th class="border-0">{% trans 'Country' %}</th>
@@ -29,7 +29,7 @@
     {% with instance.addresses.all as pubs %}
     {% for item in pubs %}
     <tr>
-      <td class="pl-3"><strong>{{ item.name | title }}</strong>
+      <td><strong>{{ item.name | title }}</strong>
         <div>{% firstof item.street '-' %}</div>
       </td>
       <td>{% firstof item.city '-' %}</td>

@@ -30,9 +30,9 @@ BASE_URL = 'http://localhost:8000'
 
 installed_apps = [
 
-    'django_materials',
-
+    'intranet.core',
     'intranet.admin',
+    'intranet.restapi',
     'intranet.accounts',
     'intranet.persons',
     'intranet.employees',
@@ -43,9 +43,10 @@ installed_apps = [
 
     'django_numerators',
     'django_websites',
-    'django_trumbowyg',
+    'django_trumbo',
 
     'formtools',
+    'rest_framework',
     'django_select2',
     'import_export',
     'widget_tweaks',

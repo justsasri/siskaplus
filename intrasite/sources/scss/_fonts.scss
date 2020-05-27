@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Zilla Slab Regular'), local('ZillaSlab-Regular'), url('../fonts/ZillaSlab-Regular.ttf') format('woff2');
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Zilla Slab Medium'), local('ZillaSlab-Medium'), url('../fonts/ZillaSlab-Medium.ttf') format('woff2');
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Zilla Slab Bold'), local('ZillaSlab-Bold'), url('../fonts/ZillaSlab-Bold.ttf') format('woff2');
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Inter Regular'), local('Inter-Regular'), url('../fonts/Inter-Regular.ttf') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Inter Medium'), local('Inter-Medium'), url('../fonts/Inter-Medium.ttf') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Inter Bold'), local('Inter-Bold'), url('../fonts/Inter-Bold.ttf') format('woff2');
+}

@@ -12,7 +12,7 @@
 {% block card_content %}
 {% if instance.awards.all %}
 <div class="table-responsive">
-  <table class="table small highlight">
+  <table class="table table-sm highlight">
     <thead>
     <tr>
       <th class="border-0 pl-3">{% trans 'Title' %}</th>
@@ -27,7 +27,7 @@
     {% with instance.publications.all as pubs %}
       {% for item in pubs %}
         <tr>
-          <td class="pl-3"><strong>{{ item.title }}</strong>
+          <td><strong>{{ item.title }}</strong>
             <div>{% firstof item.description '-' %}</div>
           </td>
           <td>{% firstof item.publisher '-' %}</td>

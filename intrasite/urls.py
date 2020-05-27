@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.admindocs import urls as admindocs_urls
 
+from intranet.admin.sites import admin_site
 from intranet.accounts import urls as accounts_urls
 from intranet.academic.admin.sites import academic_admin
 from intranet.academic.sites import academic_site
@@ -10,7 +11,6 @@ from intranet.lectures.sites import classroom_sites
 
 urlpatterns = [
 
-    url(r'', include('django_materials.urls')),
     url(r'^accounts/', include(accounts_urls)),
     url(r'^matriculant/', include('intranet.matriculants.urls')),
 
@@ -18,8 +18,9 @@ urlpatterns = [
     url(r'^academic/admin/', academic_admin.urls),
 
     url(r'^classrooms/', include(classroom_sites.get_urls())),
-    url(r'^select2/', include('django_select2.urls')),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^select2/', include('django_select2.urls')),
+    url(r'^api/', include('intranet.restapi.urls')),
+    url(r'^admin/', admin_site.urls),
 ]
 
 if settings.DEBUG:

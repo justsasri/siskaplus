@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from django_trumbowyg.widgets import TrumbowygWidget
+from django_trumbo.widgets import TrumbowygWidget
 
 from .models import Concentration, Course, Curriculum, CurriculumCourse
 

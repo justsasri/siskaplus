@@ -1,0 +1,179 @@
+{% extends "admin/inspect.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+  .sidebar {
+    font-size: 13px;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>{% blocktrans with opts.verbose_name as name %}Inspecting {{ name }}: {{ instance }}{% endblocktrans %}</h1>
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+
+  {% if instance.requisites.all %}
+  <div class="module">
+    <h2>{% trans 'Requisite' %}</h2>
+    <div class="curriculum-course-table bg-white mb-4 border">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-small mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">{% trans 'Name' %}</th>
+            <th class="border-0" width="150">{% trans 'Code' %}</th>
+            <th class="border-0 text-center" width="200">{% trans 'Min Score' %}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for req in instance.requisites.all %}
+          <tr>
+            <td class="pl-4" scope="row">
+              <a href="{{ req.requisite.get_absolute_url }}">{{ req.requisite.name }}</a>
+            </td>
+            <td>{{ req.requisite.old_code }}</td>
+            <td>{{ req.score }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% if instance.required_by.all %}
+  <div class="module">
+    <h2>{% trans 'Required By' %}</h2>
+    <div class="curriculum-course-table bg-white mb-4 border">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-small mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">{% trans 'Name' %}</th>
+            <th class="border-0" width="150">{% trans 'Code' %}</th>
+            <th class="border-0 text-center" width="200">{% trans 'Min Score' %}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for req in instance.required_by.all %}
+          <tr>
+            <td class="pl-4" scope="row">
+              <a href="{{ req.course.get_absolute_url }}">{{ req.course.name }}</a>
+            </td>
+            <td>{{ req.course.old_code }}</td>
+            <td>{{ req.score }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if instance.teachers.all %}
+  <div class="module">
+    <h2>{% trans 'Teachers' %}</h2>
+    <div class="curriculum-course-table bg-white mb-4 border">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-small mb-0">
+          <thead>
+          <tr>
+            <th class="border-0 pl-4" scope="col">Name</th>
+            <th class="border-0" width="150">ID</th>
+            <th class="border-0 text-center" width="200">RMU</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for teacher in instance.teachers.all %}
+          <tr>
+            <td class="pl-4" scope="row">{{ teacher.name }}</td>
+            <td>{{ teacher.tid }}</td>
+            <td>{{ teacher.rmu }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <p class="small">
+    <a href="{% url opts|admin_urlname:'changelist' %}">&lsaquo; {% trans 'Back to' %} {{ opts.verbose_name_plural|capfirst }}</a>
+  </p>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div id="content-related" class="sidebar">
+  <div class="module">
+    <h2>{{ instance.course_code }}</h2>
+    <p>{{ opts.verbose_name | title }} {% trans 'Detail' %} :</p>
+    <p><strong>{% trans 'Active' %}:</strong><br/>{{ instance.is_active }}</p>
+    <p><strong>{% trans 'Type' %} / {% trans 'Group' %}:</strong><br/>{{ instance.course_type }} / {{ instance.course_group }}</p>
+    <p><strong>{% trans 'Level' %} / {% trans 'Year offered' %}:</strong><br/>{{ instance.get_level_display }} / {{ instance.year_offered }}</p>
+    <p><strong> {% trans 'teaching material' as material %}{{ material | title }}:</strong><br/>
+      {% if instance.has_teaching_material %}
+        <a href="{{ instance.teaching_material }}" target="_blank">Download</a>
+      {% else %}
+        -
+      {% endif %}
+    </p>
+    <p><strong> {% trans 'lecture program' as lpu %}{{ lpu | title }}:</strong><br/>
+      {% if instance.has_lpu %}
+        <a href="{{ instance.lpu }}" target="_blank">Download</a>
+      {% else %}
+        -
+      {% endif %}
+    </p>
+    <p><strong> {% trans 'practice program' as program %}{{ program | title }}:</strong><br/>
+      {% if instance.has_practice_program %}
+        <a href="{{ instance.practice_program }}" target="_blank">Download</a>
+      {% else %}
+        -
+      {% endif %}
+    </p>
+    <p><strong> {% trans 'dictate' as dictate %}{{ dictate | title }}: </strong><br/>
+      {% if instance.has_dictate %}
+        <a href="{{ instance.dictate }}" target="_blank">Download</a>
+      {% else %}
+        -
+      {% endif %}
+    </p>
+    <p><strong> {% trans 'syllabus' as syllabus %}{{ syllabus | title }}: </strong><br/>
+      {% if instance.syllabus %}
+        <a href="{{ instance.syllabus }}" target="_blank">Download</a>
+      {% else %}
+        -
+      {% endif %}
+    </p>
+    {% if instance.curriculum_courses.all %}
+    {% with instance.curriculum_courses.all as results %}
+    <p><strong>{% trans 'Curriculum' %}:</strong><br/>
+    <ul>
+      {% for item in results %}
+        <li>
+          <div>
+            <a href="{{ item.curriculum.get_absolute_url }}">
+              <strong>{{ item.curriculum.name }}</strong>
+            </a>
+          </div>
+          <div class="small">{{ item.curriculum.code }}, Semester {{ item.semester_number }}</div>
+        </li>
+      {% endfor %}
+    </ul>
+    </p>
+    {% endwith %}
+  {% endif %}
+  </div>
+  <div class="module button_actions"></div>
+</div>
+{% endblock %}

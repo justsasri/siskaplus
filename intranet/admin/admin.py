@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.template.response import TemplateResponse
 
 
-class AdminBase(admin.ModelAdmin):
+class ModelAdmin(admin.ModelAdmin):
     """ Add Inspect view feature to ModelAdmin """
 
     inspect_template = None
@@ -12,14 +12,15 @@ class AdminBase(admin.ModelAdmin):
         from django.urls import path
         info = self.model._meta.app_label, self.model._meta.model_name
         urls = super().get_urls()
+        custom_urls = []
         if self.inspect_enabled:
-            urls.append(
+            custom_urls.append(
                 path('<path:object_id>/inspect/',
                      self.admin_site.admin_view(self.inspect_view),
                      name='%s_%s_inspect' % info
                      )
             )
-        return urls
+        return custom_urls + urls
 
     def inspect_view(self, request, object_id, extra_context=None):
         obj = self.get_object(request, object_id)
@@ -41,6 +42,10 @@ class AdminBase(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         obj = self.get_object(request, object_id)
+
+        if not self.has_view_or_change_permission(request, obj):
+            return PermissionError
+
         if self.has_change_permission(request, obj):
             return self.changeform_view(request, object_id, form_url, extra_context)
         return self.inspect_view(request, object_id, extra_context)

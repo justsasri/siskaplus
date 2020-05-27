@@ -12,10 +12,10 @@
 {% block card_content %}
 {% if instance.families.all %}
 <div class="table-responsive">
-  <table class="table small highlight">
+  <table class="table table-sm highlight">
     <thead>
     <tr>
-      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Name' %}</th>
       <th class="border-0">{% trans 'Relation' %}</th>
       <th class="border-0">{% trans 'Other' %}</th>
       <th class="border-0">{% trans 'Date of birth' %}</th>
@@ -31,7 +31,7 @@
     {% with instance.families.all as families %}
       {% for item in families %}
         <tr>
-          <td class="pl-3">{{ item.name }}</td>
+          <td>{{ item.name }}</td>
           <td>{% firstof item.get_relation_display '-' %}</td>
           <td>{% firstof item.relationship '-' %}</td>
           <td>{% firstof item.date_of_birth '-' %}</td>

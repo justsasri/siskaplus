@@ -1,0 +1,69 @@
+{% extends 'sites/academic/teacher/inspect.html' %}
+{% load i18n static %}
+
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Profile' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Courses' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#">{% trans 'Students' %}</a>
+    </li>
+    <li class="nav-item d-none d-md-inline-block">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content_main %}
+
+  <div class="students-card card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{% trans 'Students' %}</h3>
+    </div>
+    <div class="card-body">
+      {% with instance.students.all as results %}
+        {% if results %}
+        <div class="table-responsive">
+          <table class="table table-sm table-hover table-small mb-0">
+            <thead>
+            <tr>
+              <th class="border-0 pl-4" scope="col">{% trans 'Name' %}</th>
+              <th class="border-0" width="100" scope="col">{% trans 'Student ID' %}</th>
+              <th class="border-0" scope="col">{% trans 'Program Study' %}</th>
+              <th class="border-0 text-center" scope="col">{% trans 'Year of Force' %}</th>
+              <th class="border-0 text-center pr-4" width="30" scope="col">{% trans 'Status' %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in results %}
+              <tr>
+                <td class="pl-4" scope="row">
+                  <a href="{{ item.get_public_url }}">
+                    {{ item }}</a>
+                </td>
+                <td>{{ item.student_id }}</td>
+                <td>{{ item.rmu }}</td>
+                <td class="text-center">{{ item.year_of_force }}</td>
+                <td class="text-center pr-4">{{ item.get_status_display }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+          <div class="p-3">{% trans 'No student here.' %}</div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+
+{% endblock %}

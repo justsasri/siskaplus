@@ -1,0 +1,73 @@
+{% extends 'sites/academic/teacher/inspect.html' %}
+{% load i18n static %}
+
+{% block tabs %}
+<div class="page-tabs">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'academic_teacher_inspect' instance_pk=instance.id %}">{% trans 'Profile' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'academic_teacher_courses' instance_pk=instance.id %}">{% trans 'Courses' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">{% trans 'Students' %}</a>
+    </li>
+    <li class="nav-item d-none d-md-inline-block">
+      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content_main %}
+
+  <div class="courses-card card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">{% trans 'Courses' %}</h3>
+      </div>
+    <div class="card-body">
+      {% with instance.courses.all as results %}
+        {% if results %}
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-small mb-0">
+              <thead>
+                <tr>
+                  <th class="border-0" scope="col">{% trans 'Name' %}</th>
+                  <th class="border-0" width="100" scope="col">{% trans 'Code' %}</th>
+                  <th class="border-0 text-center" width="30" scope="col">MT</th>
+                  <th class="border-0 text-center" width="30" scope="col">PC</th>
+                  <th class="border-0 text-center" width="30" scope="col">PF</th>
+                  <th class="border-0 text-center" width="30" scope="col">SM</th>
+                  <th class="border-0 text-center pr-4" width="30" scope="col">ST</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in results %}
+                <tr>
+                  <td scope="row">
+                    <a href="{{ item.get_public_url }}">
+                      {{ item.name }}</a>
+                  </td>
+                  <td>{{ item.old_code }}</td>
+                  <td class="text-center">{{ item.meeting }}</td>
+                  <td class="text-center">{{ item.practice }}</td>
+                  <td class="text-center">{{ item.field_practice }}</td>
+                  <td class="text-center">{{ item.simulation }}</td>
+                  <td class="text-center">{{ item.total }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="p-3">{% trans 'No course here.' %}</div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+
+{% endblock %}

@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from ..core.resource_widgets import UUIDWidget
 from .models import (
     Student, Teacher, SchoolYear, ManagementUnit, Curriculum, Course, CurriculumCourse,
-    CourseType, CourseGroup, StudentScore
+    CourseType, CourseGroup, StudentScore, StudentConversion, StudentConversionItem
 )
 
 
@@ -166,3 +166,23 @@ class StudentScoreResource(ModelResource):
     def dehydrate_course_name(self, obj):
         course = getattr(obj, 'course', None)
         return '%s' % '' if not course else str(course.name)
+
+
+class StudentConversionItemResource(ModelResource):
+    class Meta:
+        model = StudentConversionItem
+        exclude = ('created_at', 'studentscore_ptr', 'polymorphic_ctype',
+                   'is_trash', 'trashed_by', 'trashed_at')
+
+    id = Field(
+        attribute='id',
+        column_name='id',
+        widget=UUIDWidget())
+    conversion = fields.Field(
+        column_name='conversion',
+        attribute='conversion',
+        widget=widgets.ForeignKeyWidget(StudentConversion, 'inner_id'))
+    course = fields.Field(
+        column_name='mata_kuliah',
+        attribute='course',
+        widget=widgets.ForeignKeyWidget(Course, 'old_code'))

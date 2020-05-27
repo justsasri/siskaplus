@@ -45,8 +45,11 @@ class BaseManager(models.Manager):
     """
 
     def get_queryset(self):
-        return super().get_queryset().filter(is_deleted=False)
+        return super().get_queryset()
 
     def get(self, *args, **kwargs):
         kwargs['is_deleted'] = False
         return super().get(*args, **kwargs)
+
+    def get_deleted(self):
+        return super().get_queryset().filter(is_deleted=True)

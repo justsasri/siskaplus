@@ -12,10 +12,10 @@
 {% block card_content %}
 {% if instance.skills.all %}
 <div class="table-responsive">
-  <table class="table small highlight">
+  <table class="table table-sm highlight">
     <thead>
     <tr>
-      <th class="border-0 pl-3">{% trans 'Name' %}</th>
+      <th class="border-0">{% trans 'Name' %}</th>
       <th class="border-0">{% trans 'Description' %}</th>
       <th class="border-0"></th>
       <th class="border-0 center-align">{% trans 'Level' %}</th>
@@ -28,7 +28,7 @@
     {% with instance.skills.all as items %}
       {% for item in items %}
         <tr>
-          <td class="pl-3">{{ item.name }}</td>
+          <td>{{ item.name }}</td>
           <td>{% firstof item.description '-' %}</td>
           <td width="125">
             <div class="progress" style="height: 4px; margin-top: .45rem;">

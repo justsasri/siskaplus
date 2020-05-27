@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block page_title %}
-  <h1 class="display-5 text-white">{{ instance.name | title }}</h1>
+  <h1 class="page-title">{{ instance.name | title }}</h1>
 {% endblock %}
 
 {% block page_subtitle %}
@@ -137,7 +137,7 @@
         <ul>
         {% for teacher in instance.teachers.all %}
           <li>
-            <div><a href="{% url 'academic_teacher_inspect' instance_pk=teacher.id %}"><strong>{{ teacher }}</strong></a></div>
+            <div><a href="{{ teacher.get_public_url }}"><strong>{{ teacher }}</strong></a></div>
             <div class="small">{% if teacher.tid %}#{{ teacher.tid }}, {% endif %}{{ teacher.rmu }} </div>
           </li>
         {% endfor %}
@@ -154,7 +154,7 @@
         {% for item in instance.requisites.all %}
           <li>
             <div>
-              <a href="{% url 'academic_course_inspect' item.requisite.id %}"><strong>{{ item.requisite.name }}</strong></a>
+              <a href="{{ item.requisite.get_public_url }}"><strong>{{ item.requisite.name }}</strong></a>
             </div>
             <div class="small">#{{ item.requisite.old_code }}, {% trans 'min score' %} {{ item.score }}</div>
           </li>
@@ -173,7 +173,7 @@
           {% for item in results %}
             <li>
               <div>
-                <a href="{% url 'academic_course_inspect' item.course.id %}">
+                <a href="{{ item.get_public_url }}">
                   <strong>{{ item.course.name }}</strong>
                 </a>
               </div>
@@ -195,7 +195,7 @@
           {% for item in results %}
             <li>
               <div>
-                <a href="{% url 'academic_curriculum_inspect' item.curriculum.id %}">
+                <a href="{{ item.curriculum.get_public_url }}">
                   <strong>{{ item.curriculum.name }}</strong>
                 </a>
               </div>

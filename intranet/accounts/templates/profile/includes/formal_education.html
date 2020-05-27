@@ -12,10 +12,10 @@
 {% block card_content %}
 {% if instance.formal_educations.all %}
 <div class="table-responsive">
-  <table class="table small highlight">
+  <table class="table table-sm highlight">
     <thead>
     <tr>
-      <th class="border-0 pl-3">{% trans 'Level' %}</th>
+      <th class="border-0">{% trans 'Level' %}</th>
       <th class="border-0">{% trans 'Institution' %}</th>
       <th class="border-0">{% trans 'Major' %}</th>
       <th class="border-0">{% trans 'Date start' %}</th>
@@ -30,7 +30,7 @@
     {% with instance.formal_educations.all as educations %}
       {% for item in educations %}
         <tr>
-          <td class="pl-3">{{ item.get_level_display | upper }}</td>
+          <td>{{ item.get_level_display | upper }}</td>
           <td>{% firstof item.institution '-' %}</td>
           <td>{% firstof item.major '-' %}</td>
           <td>{% firstof item.date_start '-' %}</td>

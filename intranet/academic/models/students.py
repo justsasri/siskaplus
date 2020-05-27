@@ -21,6 +21,8 @@ _ = translation.gettext_lazy
 
 
 def get_score_status(alpha_score):
+    if alpha_score not in ['A', 'B', 'C', 'D']:
+        return '-'
     status = {
         'A': 'lulus',
         'B': 'lulus',
@@ -32,6 +34,8 @@ def get_score_status(alpha_score):
 
 
 def get_score_classname(alpha_score):
+    if alpha_score not in ['A', 'B', 'C', 'D']:
+        return ''
     status = {
         'A': 'success',
         'B': 'success',
@@ -154,55 +158,59 @@ class Student(NumeratorMixin, BaseModel):
         self.save()
         return True
 
-    def course_max_score_subquery(self, score_type):
-        from .scores import Score
+    def course_max_score_subquery(self, field):
+        from .scores import StudentScore
         filter_fields = {
             'student': self,
             'course_id': models.OuterRef('course_id')
         }
         sqs = Subquery(
-            Score.objects.filter(
+            StudentScore.objects.filter(
                 **filter_fields
             ).only(
-                'numeric', 'alphabetic'
-            ).order_by('-numeric').values(score_type)[:1],
+                'sks', 'point', 'numeric', 'alphabetic'
+            ).order_by('-numeric').values(field)[:1],
             output_field=models.CharField()
         )
         return sqs
 
-    def get_all_scores(self, semester=None):
+    def get_scores(self, semester=None):
         courses = self.curriculum.curriculum_courses.all()
         if semester:
             courses = courses.filter(semester_number=semester)
         scores = courses.annotate(
+            alphabetic=self.course_max_score_subquery('alphabetic'),
             numeric=self.course_max_score_subquery('numeric'),
-            alphabetic=self.course_max_score_subquery('alphabetic')
+            sks=self.course_max_score_subquery('sks'),
+            point=self.course_max_score_subquery('point'),
         )
         return scores
 
-    def get_scores(self, semester=None):
-        scores = self.get_all_scores(semester)
-        semester_scores = []
-        for score in scores:
-            if score.alphabetic not in ['A', 'B', 'C', 'D']:
-                score.score_status = '-'
-                score.score_classname = ''
-            else:
-                score.score_status = get_score_status(score.alphabetic)
-                score.score_classname = get_score_classname(score.alphabetic)
-            semester_scores.append(score)
-        return semester_scores
+    def get_scores_summary(self, scores):
+        summary = scores.aggregate(
+            course_remedy=models.Count('id', filter=models.Q(numeric__gt='C')),
+            course_graduate=models.Count('id', filter=models.Q(numeric__lte='C')),
+            course_total=models.Count('id', filter=models.Q(alphabetic__isnull=False)),
+            sks_remedy=models.Sum('sks', filter=models.Q(alphabetic__gt='C')),
+            sks_graduate=models.Sum('sks', filter=models.Q(alphabetic__lte='C')),
+            sks_total=models.Sum('sks', filter=models.Q(alphabetic__isnull=False)),
+            total_point=models.Sum('point', filter=models.Q(alphabetic__isnull=False)),
+        )
+        summary['ips'] = summary['total_point'] / summary['sks_total']
+        return summary
 
     def get_gravatar_url(self):
         return get_user_gravatar(self.account)
 
     def get_absolute_url(self):
+        return reverse('admin:intranet_academic_student_inspect', args=(self.id,))
+
+    def get_public_url(self):
         return reverse('academic_student_inspect', args=(self.id,))
 
     def natural_key(self):
         natural_key = (self.student_id,)
         return natural_key
-
 
     def enrollment_plans_total_credit(self):
         return self.enrollment_plans.aggregate(

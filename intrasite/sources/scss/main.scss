@@ -1,0 +1,72 @@
+// Material Design Icons and Fonts
+@import '~@mdi/font/scss/materialdesignicons';
+@import 'fonts';
+
+@import "bootstrap/bootstrap";
+@import "bootstrap/navbar";
+@import "bootstrap/tabs";
+@import "bootstrap/sidebar";
+@import "bootstrap/breadcrumb";
+@import "bootstrap/button";
+@import "bootstrap/card";
+
+// Layout
+
+a, a:hover, a:focus {
+  text-decoration: none;
+}
+
+.container {
+  padding-right: $grid-gutter-width;
+  padding-left: $grid-gutter-width;
+}
+
+#header {
+    width: 100%;
+    z-index: 1000;
+}
+
+.page-header {
+  color: white;
+  background-color: darken($primary, 6);
+  margin-bottom: $grid-gutter-width * 2;
+}
+
+.page-title {
+  font-size: 1.8rem ;
+  margin-bottom: $grid-gutter-width;
+}
+
+// Avatar
+
+.user-view {
+  .name {
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    display: block;
+    text-align: center;
+  }
+  .email {
+    display: block;
+    text-align: center;
+  }
+}
+
+.avatar {
+  display: block;
+  &-center {
+    margin: 0 auto;
+  }
+  &-sm {
+    width: 32px;
+    height: 32px;
+  }
+  &-md {
+    width: 64px;
+    height: 64px;
+  }
+  &-lg {
+    width: 96px;
+    height: 96px;
+  }
+}

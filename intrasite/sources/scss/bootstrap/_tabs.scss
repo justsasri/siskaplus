@@ -1,0 +1,22 @@
+.page-tabs {
+  .nav-tabs {
+    border-bottom: none;
+  }
+  .nav-link {
+    border: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding-right: 1.5rem;
+    color: rgba(255,255,255,.7);
+    margin-right: .1rem;
+    padding-left: 1.5rem;
+  &:hover {
+    background: rgba(0,0,0,.05);
+  }
+  &.active {
+    color: #495057;
+    background-color: #f8f9fa;
+    border-color: #2380c3 #2380c3 #f8f9fa;
+  }
+  }
+}
