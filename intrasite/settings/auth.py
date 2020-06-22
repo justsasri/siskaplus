@@ -13,7 +13,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/'
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_ADAPTER = 'intranet.accounts.adapters.NoSignupAdapter'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`

@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^classrooms/', include(classroom_sites.get_urls())),
     # url(r'^select2/', include('django_select2.urls')),
     url(r'^api/', include('intranet.restapi.urls')),
-    url(r'^admin/', admin_site.urls),
+    url(r'^admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

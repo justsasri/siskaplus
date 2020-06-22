@@ -1,6 +1,6 @@
 {% extends "account/base_external_form.html" %}
 
-{% load i18n %}
+{% load i18n formutils_tags widget_tweaks %}
 {% load account %}
 
 {% block form_content %}
@@ -11,10 +11,34 @@
   {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  {% include 'account/includes/fieldset_stacked.html' %}
+  <div class="form-group mb-3">
+    <label for="{{ form.login.name }}" class="form-control-label">
+      {{ form.login.label }}{% if form.login.field.required %} <sup class="text-danger">*</sup>{% endif %}
+    </label>
+    {% render_field form.login class="form-control" %}
+    <small class="form-text text-muted">{{ form.login.help_text }}</small>
+    {{ form.login.errors }}
+  </div>
+  <div class="form-group mb-3">
+    <label for="{{ form.password.name }}" class="form-control-label">
+      {{ form.password.label }}{% if form.password.field.required %} <sup class="text-danger">*</sup>{% endif %}
+    </label>
+    <a href="{% url 'account_reset_password' %}" class="forgot-pass float-right">Forgot Password?</a>
+    {% render_field form.password class="form-control" %}
+    <small class="form-text text-muted">{{ form.password.help_text }}</small>
+    {{ form.password.errors }}
+  </div>
+  <div class="form-group mb-3">
+    <div class="i-checks">
+      {% render_field form.remember class="checkbox-template" id=form.remember.name %}
+      <label for="{{ form.remember.name }}" class="form-control-label">
+        <span>{{ form.remember.label }}</span>
+      </label>
+      </div>
+      <small class="form-text text-muted">{{ form.remember.help_text }}</small>
+    {{ form.remember.errors }}
+  </div>
   <button class="btn btn-primary  mb-3" id="primaryAction" type="submit">{% trans "Sign In" %}</button>
-  <!-- This should be submit button but I replaced it with <a> for demo purposes-->
 </form>
- 
-</div>
+
 {% endblock %}

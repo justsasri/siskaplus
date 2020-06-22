@@ -115,6 +115,8 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'intranet_accounts.User'
+ACCOUNT_ADAPTER = 'intranet.accounts.adapters.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = "intranet.accounts.adapters.CustomSocialAccountAdapter"
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},

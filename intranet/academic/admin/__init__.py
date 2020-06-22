@@ -1,26 +1,27 @@
+from django.contrib import admin
 from django.contrib.auth import get_user_model
 from ...admin.sites import admin_site
 from .sites import academic_admin
 from .admin import *
 
-admin_site.register(SchoolYear, admin.ModelAdmin)
-admin_site.register(AcademicYear, AcademicYearAdmin)
-admin_site.register(ManagementUnit, ManagementUnitAdmin)
-admin_site.register(Concentration, admin.ModelAdmin)
-admin_site.register(CourseType, admin.ModelAdmin)
-admin_site.register(CourseGroup, admin.ModelAdmin)
-admin_site.register(Course, CourseAdmin)
-admin_site.register(Curriculum, CurriculumAdmin)
-admin_site.register(CurriculumCourse, CurriculumCourseAdmin)
+admin.site.register(SchoolYear, admin.ModelAdmin)
+admin.site.register(AcademicYear, AcademicYearAdmin)
+admin.site.register(ManagementUnit, ManagementUnitAdmin)
+admin.site.register(Concentration, admin.ModelAdmin)
+admin.site.register(CourseType, admin.ModelAdmin)
+admin.site.register(CourseGroup, admin.ModelAdmin)
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Curriculum, CurriculumAdmin)
+admin.site.register(CurriculumCourse, CurriculumCourseAdmin)
 
-admin_site.register(ScoreRange, ScoreRangeAdmin)
-admin_site.register(PlainStudentScore, PlainStudentScoreAdmin)
-admin_site.register(ConversionStudentScore, ConversionStudentScoreAdmin)
-admin_site.register(StudentConversion, StudentConversionAdmin)
-admin_site.register(StudentConversionItem, StudentConversionItemAdmin)
+admin.site.register(ScoreRange, ScoreRangeAdmin)
+admin.site.register(PlainStudentScore, PlainStudentScoreAdmin)
+admin.site.register(ConversionStudentScore, ConversionStudentScoreAdmin)
+admin.site.register(StudentConversion, StudentConversionAdmin)
+admin.site.register(StudentConversionItem, StudentConversionItemAdmin)
 
-admin_site.register(Student, StudentAdmin)
-admin_site.register(Teacher, TeacherAdmin)
+admin.site.register(Student, StudentAdmin)
+admin.site.register(Teacher, TeacherAdmin)
 
 # academic admins
 
