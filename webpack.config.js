@@ -40,7 +40,7 @@ module.exports = [{
         name: '../fonts/[name].[ext]',
       }
     }, {
-      test: /\.(png|jpe?g|gif)$/i,
+      test: /\.(png|jpe?g|gif|ico)$/i,
       loader: 'file-loader',
       options: {
         name: '../img/[name].[ext]',
