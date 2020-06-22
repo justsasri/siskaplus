@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from ...accounts.admin import UserAdmin
 from ...admin.sites import admin_site
 from .sites import academic_admin
 from .admin import *
@@ -38,5 +37,4 @@ academic_admin.register(Student, StudentAdmin)
 academic_admin.register(Teacher, TeacherAdmin)
 academic_admin.register(PlainStudentScore, PlainStudentScoreAdmin)
 academic_admin.register(ConversionStudentScore, ConversionStudentScoreAdmin)
-academic_admin.register(get_user_model(), UserAdmin)
 academic_admin.register(StudentConversion, StudentConversionAdmin)

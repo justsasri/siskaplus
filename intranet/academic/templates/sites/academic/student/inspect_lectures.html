@@ -1,10 +1,9 @@
-{% extends 'sites/academic/teacher/inspect.html' %}
-{% load i18n static %}
+{% extends 'sites/academic/student/inspect.html' %}
+{% load i18n static academic_tags %}
 
 {% block tabs %}
-{% include 'sites/academic/teacher/tabs.html' with link_active='lectures' %}
+  {% include 'sites/academic/student/tabs.html' with link_active='lectures' %}
 {% endblock %}
-
 
 {% block content_main %}
   <div class="lectures-card card">
@@ -64,7 +63,7 @@
     lectureStatusFilter = document.getElementById('statusFilter');
     lectureStatusFilter.onchange = function(e){
       console.log(lectureStatusFilter.value)
-      window.location = "{% url 'academic_teacher_lectures' instance_pk=instance.id %}?status=" + lectureStatusFilter.value;
+      window.location = "{% url 'academic_student_lectures' instance_pk=instance.id %}?status=" + lectureStatusFilter.value;
     };
   </script>
 {% endblock %}

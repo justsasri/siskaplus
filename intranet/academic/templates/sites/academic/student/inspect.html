@@ -15,22 +15,7 @@
 
 
 {% block tabs %}
-<div class="page-tabs">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">{% trans 'Profile' %}</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans 'Scores' %}</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
-    </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
-    </li>
-  </ul>
-</div>
+  {% include 'sites/academic/student/tabs.html' with link_active='profile' %}
 {% endblock %}
 
 
@@ -47,47 +32,6 @@
   {% include 'profile/includes/publication.html' with card_name='publication' instance=instance.account.person %}
   {% include 'profile/includes/family_relationship.html' with card_name='family' instance=instance.account.person %}
 
-  {% regroup instance.get_scores by semester_number as semester_list %}
-
-  {% for semester in semester_list %}
-  <h4 class="font-weight-bold mb-3">{% trans 'Semester' %} {{ semester.grouper }}</h4>
-  <div class="table-card bg-white mb-4 border">
-    <div class="table-responsive">
-      <table class="table table-sm table-hover table-small mb-0">
-        <thead>
-        <tr>
-          <th class="border-0 pl-4" scope="col">Nama MK</th>
-          <th class="border-0" width="100" scope="col">Kode</th>
-          <th class="border-0 text-center" width="100" scope="col">Semester</th>
-          <th class="border-0 text-center" width="100" scope="col">SKS</th>
-          <th class="border-0 text-center" width="50" scope="col">Angka</th>
-          <th class="border-0 text-center" width="50" scope="col">Huruf</th>
-          <th class="border-0 pr-4" width="30" scope="col">Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in semester.list  %}
-        <tr>
-          <td class="pl-4" scope="row">
-            <a href="{% url 'academic_course_inspect' item.course.id %}">
-              {{ item.name }}</a>
-          </td>
-          <td>{{ item.old_code }}</td>
-          <td class="text-center">{{ item.semester_number }}</td>
-          <td class="text-center">{{ item.total }}</td>
-          <td class="text-center">{% firstof item.numeric '-' %}</td>
-          <td class="text-center">{% firstof item.alphabetic '-' %}</td>
-          <td class="pr-4">
-            <span class="badge badge-{{ item.alphabetic | score_classname }} small">
-              {{ item.alphabetic | score_status }}
-            </span>
-          </td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-  </div>
-  {% endfor %}
 {% endblock %}
 
 {% block content_sidebar_class %}col-md-3{% endblock %}

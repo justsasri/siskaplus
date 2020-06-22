@@ -2,35 +2,24 @@
 {% load i18n static %}
 
 {% block tabs %}
-<div class="page-tabs">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans 'Profile' %}</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans 'Courses' %}</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans 'Lectures' %}</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="#">{% trans 'Students' %}</a>
-    </li>
-    <li class="nav-item d-none d-md-inline-block">
-      <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
-    </li>
-  </ul>
-</div>
+{% include 'sites/academic/teacher/tabs.html' with link_active='students' %}
 {% endblock %}
 
 {% block content_main %}
-
   <div class="students-card card">
-    <div class="card-header d-flex align-items-center">
-      <h3 class="h4">{% trans 'Students' %}</h3>
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h4>{% trans 'Students' %}</h4>
+      <div>
+        <select class="form-control" name="statusFilter" id="statusFilter">
+          {% for status in status_list %}
+            <option value="{{ status.0 }}" 
+                    {% if status_selected == status.0 %}selected{% endif %}>{{ status.1 }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
     <div class="card-body">
-      {% with instance.students.all as results %}
+      {% with students as results %}
         {% if results %}
         <div class="table-responsive">
           <table class="table table-sm table-hover table-small mb-0">
@@ -65,5 +54,15 @@
       {% endwith %}
     </div>
   </div>
+{% endblock %}
 
+{% block extra_js %}
+  {{ block.super }}
+  <script>
+    studentStatusFilter = document.getElementById('statusFilter');
+    studentStatusFilter.onchange = function(e){
+      console.log(studentStatusFilter.value)
+      window.location = "{% url 'academic_teacher_students' instance_pk=instance.id %}?status=" + studentStatusFilter.value;
+    };
+  </script>
 {% endblock %}

@@ -11,12 +11,8 @@ from django_websites.views import InspectView
 from ..lectures.models import Lecture
 from ..lectures.enums import LectureStatus
 from ..lectures.filters import LectureFilter
-from .models import (
-    Curriculum,
-    Course,
-    Teacher,
-    Student
-)
+from .enums import StudentStatus
+from .models import Curriculum, Course, Teacher, Student
 
 from .filters import CourseFilter, CurriculumFilter, TeacherFilter, StudentFilter
 
@@ -65,15 +61,60 @@ class TeacherInspectCoursesView(InspectView):
     template_name = 'sites/academic/teacher/inspect_courses.html'
 
 
+class TeacherInspectStudentsView(InspectView):
+    template_name = 'sites/academic/teacher/inspect_students.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+
+        # filter teacher's students by query args status
+        status = self.request.GET.get('status', None)
+        if status:
+            student_list = self.instance.students.filter(status=status)
+        else:
+            student_list = self.instance.students.all()
+        kwargs.update({
+            'students': student_list,
+            'status_list': StudentStatus.CHOICES.value,
+            'status_selected': status
+        })
+        return kwargs
+
+
+class TeacherInspectLecturesView(InspectView):
+    template_name = 'sites/academic/teacher/inspect_lectures.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+
+        # filter teacher'slectures by query args status
+        status = self.request.GET.get('status', None)
+        if status:
+            lecture_list = self.instance.lectures.filter(status=status)
+        else:
+            lecture_list = self.instance.lectures.all()
+        kwargs.update({
+            'lectures': lecture_list,
+            'status_list': LectureStatus.CHOICES.value,
+            'status_selected': status
+        })
+        return kwargs
+
+
 class TeacherModelSite(ModelSite):
     model = Teacher
     filterset_class = TeacherFilter
     inspect_view_enabled = True
     inspect_courses_view_class = TeacherInspectCoursesView
+    inspect_students_view_class = TeacherInspectStudentsView
+    inspect_lectures_view_class = TeacherInspectLecturesView
+
     def get_urls(self):
         urls = super().get_urls()
         urls += [
             path('teacher/inspect/<str:instance_pk>/courses/', self.inspect_courses_view, name='academic_teacher_courses'),
+            path('teacher/inspect/<str:instance_pk>/students/', self.inspect_students_view, name='academic_teacher_students'),
+            path('teacher/inspect/<str:instance_pk>/lectures/', self.inspect_lectures_view, name='academic_teacher_lectures'),
         ]
         return urls
 
@@ -82,16 +123,54 @@ class TeacherModelSite(ModelSite):
         view_class = self.inspect_courses_view_class
         return view_class.as_view(**kwargs)(request)
 
+    def inspect_students_view(self, request, instance_pk):
+        kwargs = {'modelsite': self, 'instance_pk': instance_pk}
+        view_class = self.inspect_students_view_class
+        return view_class.as_view(**kwargs)(request)
+
+    def inspect_lectures_view(self, request, instance_pk):
+        kwargs = {'modelsite': self, 'instance_pk': instance_pk}
+        view_class = self.inspect_lectures_view_class
+        return view_class.as_view(**kwargs)(request)
+
+
+class StudentInspectCoursesView(InspectView):
+    template_name = 'sites/academic/student/inspect_scores.html'
+
+
+class StudentInspectLecturesView(InspectView):
+    template_name = 'sites/academic/student/inspect_lectures.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+
+        # filter student's lectures by query args status
+        status = self.request.GET.get('status', None)
+        if status:
+            lecture_list = self.instance.lectures.filter(status=status)
+        else:
+            lecture_list = self.instance.lectures.all()
+        kwargs.update({
+            'lectures': lecture_list,
+            'status_list': LectureStatus.CHOICES.value,
+            'status_selected': status
+        })
+        return kwargs
+
 
 class StudentModelSite(ModelSite):
     model = Student
     filterset_class = StudentFilter
     inspect_view_enabled = True
+    inspect_scores_view_class = StudentInspectCoursesView
+    inspect_lectures_view_class = StudentInspectLecturesView
 
     def get_urls(self):
         urls = super().get_urls()
         urls += [
             path('student/profile/<str:instance_pk>/', self.profile_view, name='person_profile'),
+            path('student/inspect/<str:instance_pk>/scores/', self.inspect_scores_view, name='academic_student_scores'),
+            path('student/inspect/<str:instance_pk>/lectures/', self.inspect_lectures_view, name='academic_student_lectures'),
         ]
         return urls
 
@@ -104,6 +183,16 @@ class StudentModelSite(ModelSite):
             'is_mine': is_mine
         }
         return render(request, 'sites/profile/public.html', context=context)
+
+    def inspect_scores_view(self, request, instance_pk):
+        kwargs = {'modelsite': self, 'instance_pk': instance_pk}
+        view_class = self.inspect_scores_view_class
+        return view_class.as_view(**kwargs)(request)
+
+    def inspect_lectures_view(self, request, instance_pk):
+        kwargs = {'modelsite': self, 'instance_pk': instance_pk}
+        view_class = self.inspect_lectures_view_class
+        return view_class.as_view(**kwargs)(request)
 
 
 class AcademicSiteGroup(ModelSiteGroup):

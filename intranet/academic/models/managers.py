@@ -6,6 +6,7 @@ from django.utils import translation
 from mptt.models import TreeManager
 
 from ...core.managers import count_subquery, cumulative_count_subquery
+from ..enums import StudentStatus
 
 _ = translation.gettext_lazy
 
@@ -222,6 +223,10 @@ class StudentManager(models.Manager):
             return self.get(account=user, primary=True)
         except self.model.DoesNotExist:
             return None
+
+    def active(self):
+        qs = self.get_queryset().filter(status=StudentStatus.ACTIVE.value)
+        return qs
 
 
 class StudentConversionManager(models.Manager):

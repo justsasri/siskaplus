@@ -1,15 +1,14 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 
 from import_export.admin import ImportExportMixin, ExportActionMixin
 from import_export.formats import base_formats
 
+from ..admin.sites import admin_site
 from .models import User
 from .resources import UserResource
 
 
-@admin.register(User)
 class UserAdmin(ImportExportMixin, ExportActionMixin, UserAdminBase):
     resource_class = UserResource
     formats = (base_formats.XLSX,)
@@ -81,3 +80,6 @@ class UserAdmin(ImportExportMixin, ExportActionMixin, UserAdminBase):
         if not request.user.is_superuser:
             return self.non_superuser_fieldsets
         return super().get_fieldsets(request, obj)
+
+
+admin_site.register(User, UserAdmin)

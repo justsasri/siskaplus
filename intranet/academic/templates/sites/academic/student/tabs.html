@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<div class="page-tabs">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link {% if link_active == 'profile' %}active{% endif %}"
+           href="{% url 'academic_student_inspect' instance_pk=instance.id %}">{% trans 'Profile' %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if link_active == 'scores' %}active{% endif %}" 
+           href="{% url 'academic_student_scores' instance_pk=instance.id %}">{% trans 'Scores' %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if link_active == 'lcetures' %}active{% endif %}" 
+           href="{% url 'academic_student_lectures' instance_pk=instance.id %}">{% trans 'Lectures' %}</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link"><i class="mdi mdi-help-circle-outline"></i> Guide</a>
+      </li>
+    </ul>
+  </div>
