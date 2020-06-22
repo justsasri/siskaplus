@@ -1,18 +1,20 @@
 # Cache time to live is an hour.
+import os
+
 CACHE_TTL = 60 * 0
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": os.getenv('REDIS_CACHE_URL', 'redis://localhost:6379/2'),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
-        "KEY_PREFIX": "intrasite_cache"
+        "KEY_PREFIX": os.getenv('SITE_NAME', 'instrasite')
     },
     'select2': {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
+        "LOCATION": os.getenv('REDIS_CACHE_URL', 'redis://localhost:6379/2'),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },

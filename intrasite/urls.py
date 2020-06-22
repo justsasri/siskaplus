@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.admindocs import urls as admindocs_urls
 
-from intranet.admin.sites import admin_site
+# from intranet.admin.sites import admin_site
 from intranet.accounts import urls as accounts_urls
 from intranet.academic.admin.sites import academic_admin
 from intranet.academic.sites import academic_site

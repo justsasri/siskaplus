@@ -1,5 +1,5 @@
 from .base import *
-
+import environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,6 +26,7 @@ ALLOWED_HOSTS = ['*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 try:
     from .local import *

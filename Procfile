@@ -1,2 +1,2 @@
-release: bash ./release-task.sh
-web: gunicorn siskaweb.wsgi
+release: bash ./release_task.sh
+web: gunicorn intrasite.wsgi
