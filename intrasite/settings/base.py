@@ -18,15 +18,9 @@ from .cache import *
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-SITE_ID = 1
-
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://localhost:8000'
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
+SITE_ID = os.getenv('SITE_ID', int(1))
+BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
+SECRET_KEY = os.getenv('SECRET_KEY', 'jx8vhpk-t$7tc$z1btb^!2n*f3i)%6bhdr@6&w8kiz@!v^c(ol')
 
 # Application definition
 
