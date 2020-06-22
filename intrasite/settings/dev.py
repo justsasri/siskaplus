@@ -1,6 +1,8 @@
-from .base import *
 import environ
 
+from .base import *
+from .auth import *
+from .cache import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

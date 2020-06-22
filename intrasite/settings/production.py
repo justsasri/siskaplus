@@ -1,6 +1,9 @@
-from .base import *
 import django_heroku
 import dj_database_url
+
+from .base import *
+from .auth import *
+from .cache import *
 
 DEBUG = False
 
