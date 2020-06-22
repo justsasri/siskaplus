@@ -98,6 +98,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 
 /***/ }),
 
+/***/ "./intrasite/sources/img/favicon.ico":
+/*!*******************************************!*\
+  !*** ./intrasite/sources/img/favicon.ico ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("throw new Error(\"Module parse failed: Unexpected character '�' (1:0)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n(Source code omitted for this binary file)\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/favicon.ico?");
+
+/***/ }),
+
 /***/ "./intrasite/sources/img/logo.png":
 /*!****************************************!*\
   !*** ./intrasite/sources/img/logo.png ***!
@@ -117,7 +128,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// SCSS or SASS here\n__webpack_require__(/*! ./scss/main.scss */ \"./intrasite/sources/scss/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./intrasite/sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./intrasite/sources/img/academic_logo.svg\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./intrasite/sources/index.js?");
+eval("// SCSS or SASS here\n__webpack_require__(/*! ./scss/main.scss */ \"./intrasite/sources/scss/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./intrasite/sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./intrasite/sources/img/academic_logo.svg\");\n\n__webpack_require__(/*! ./img/favicon.ico */ \"./intrasite/sources/img/favicon.ico\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./intrasite/sources/index.js?");
 
 /***/ }),
 

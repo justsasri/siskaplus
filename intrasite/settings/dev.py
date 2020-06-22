@@ -11,7 +11,7 @@ INTERNAL_IPS = [
 ]
 
 INSTALLED_APPS = [
-    'django_extensions',
+    # 'django_extensions',
 ] + installed_apps + [
     # 'debug_toolbar'
 ]
