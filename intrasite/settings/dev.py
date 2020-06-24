@@ -13,11 +13,11 @@ INTERNAL_IPS = [
 INSTALLED_APPS = [
     # 'django_extensions',
 ] + installed_apps + [
-    'debug_toolbar'
+    # 'debug_toolbar'
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ] + middleware
 
 # SECURITY WARNING: define the correct hosts in production!

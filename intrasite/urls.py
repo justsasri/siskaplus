@@ -15,9 +15,6 @@ from intranet.academic.admin.sites import academic_admin
 from intranet.academic.sites import academic_site
 from intranet.lectures.sites import classroom_sites
 
-
-
-
 schema_view = get_schema_view(
    openapi.Info(
       title="Darmajaya Web API",
@@ -60,7 +57,7 @@ if settings.DEBUG:
 
     # Serve static and media files from development server
     urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
+        # path('__debug__/', include(debug_toolbar.urls)),
         path('admin/docs/', include(admindocs_urls)),
     ]
     urlpatterns += staticfiles_urlpatterns()
