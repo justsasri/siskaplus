@@ -7,7 +7,7 @@ const clean = require('clean-webpack-plugin');
 module.exports = [{
   mode: 'development',
   watch: true,
-  entry: './intrasite/sources/index.js',
+  entry: './sources/index.js',
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'intrasite/static/js')

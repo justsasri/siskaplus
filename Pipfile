@@ -12,7 +12,6 @@ codecov = "*"
 coverage = "*"
 jupyter = "*"
 django-extensions = "*"
-django-debug-toolbar = "*"
 mkdocs = "==1.0.4"
 mkdocs-material = "==4.6.0"
 mkdocs-pdf-export-plugin = "*"
@@ -43,6 +42,7 @@ django-redis = "*"
 django-import-export = "*"
 django-bootstrap-datepicker-plus = "*"
 django-constance = {extras = ["database"],version = "*"}
+django-debug-toolbar = "*"
 django-activity-stream = "*"
 django-jsonfield = "*"
 django-heroku = "*"
@@ -55,6 +55,7 @@ psycopg2 = "*"
 gunicorn = "*"
 boto3 = "*"
 pandas = "*"
+drf-yasg = {extras = ["validation"],version = "*"}
 
 [requires]
 python_version = "3.7"
