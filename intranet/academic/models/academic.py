@@ -545,11 +545,11 @@ class CurriculumCourse(NumeratorMixin, BaseModel):
         related_name='curriculum_courses',
         verbose_name=_("curriculum"))
     semester_number = models.PositiveIntegerField(
-        default=1, null=True, blank=True,
+        default=1,
         choices=[(x, str(x)) for x in range(1, 9)],
         verbose_name=_('semester'))
     sks_graduate = models.PositiveIntegerField(
-        null=True, blank=True,
+        default=0,
         verbose_name=_('SKS graduate'),
         help_text=_('Minimum sks graduated to enroll this course'))
     course = models.ForeignKey(
