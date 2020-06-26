@@ -12,21 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from .auth import *
-from .cache import *
+from .restapi import *
+import dj_database_url
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-SITE_ID = 1
-
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://localhost:8000'
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
+SITE_ID = os.getenv('SITE_ID', int(1))
+BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
+SECRET_KEY = os.getenv('SECRET_KEY', 'jx8vhpk-t$7tc$z1btb^!2n*f3i)%6bhdr@6&w8kiz@!v^c(ol')
 
 # Application definition
 
@@ -47,8 +41,10 @@ installed_apps = [
     'django_websites',
     'django_trumbo',
 
-    'formtools',
+    'drf_yasg',
     'rest_framework',
+
+    'formtools',
     'django_select2',
     'import_export',
     'widget_tweaks',
@@ -117,6 +113,8 @@ DATABASES = {
     }
 }
 
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+
 AUTH_USER_MODEL = 'intranet_accounts.User'
 ACCOUNT_ADAPTER = 'intranet.accounts.adapters.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = "intranet.accounts.adapters.CustomSocialAccountAdapter"
@@ -153,9 +151,12 @@ STATICFILES_DIRS = [
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
-# Javascript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
-# See https://docs.djangoproject.com/en/3.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+# Javascript / CSS assets being served from cache.
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'

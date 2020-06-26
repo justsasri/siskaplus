@@ -4,6 +4,7 @@ require('./scss/main.scss');
 // Images
 require('./img/logo.png');
 require('./img/academic_logo.svg');
+require('./img/favicon.ico');
 
 // Fonts
 

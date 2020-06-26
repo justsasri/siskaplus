@@ -1,7 +1,9 @@
-from .base import *
 import environ
 
-# SECURITY WARNING: don't run with debug turned on in production!
+from .base import *
+from .auth import *
+from .cache import *
+
 DEBUG = True
 
 INTERNAL_IPS = [
@@ -9,7 +11,7 @@ INTERNAL_IPS = [
 ]
 
 INSTALLED_APPS = [
-    'django_extensions',
+    # 'django_extensions',
 ] + installed_apps + [
     # 'debug_toolbar'
 ]
@@ -18,11 +20,8 @@ MIDDLEWARE = [
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ] + middleware
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jx8vhpk-t$7tc$z1btb^!2n*f3i)%6bhdr@6&w8kiz@!v^c(ol'
-
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

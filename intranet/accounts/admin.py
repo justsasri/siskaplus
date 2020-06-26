@@ -1,10 +1,10 @@
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 
 from import_export.admin import ImportExportMixin, ExportActionMixin
 from import_export.formats import base_formats
 
-from ..admin.sites import admin_site
 from .models import User
 from .resources import UserResource
 
@@ -82,4 +82,4 @@ class UserAdmin(ImportExportMixin, ExportActionMixin, UserAdminBase):
         return super().get_fieldsets(request, obj)
 
 
-admin_site.register(User, UserAdmin)
+admin.site.register(User, UserAdmin)

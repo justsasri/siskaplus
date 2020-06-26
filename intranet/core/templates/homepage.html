@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.bundle.css' %}">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block breadcrumb_class %}{% endblock %}
+{% block breadcrumb %}{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script type="text/javascript" src="{% static 'js/main.bundle.js' %}"></script>
+{% endblock %}
+
+{% block page_title_wrapper %}
+<div class="col-12">
+  <div class="text-white text-center pt-3 pb-3">
+    <i class="display-4 mdi mdi-school"></i>
+    <h1 class="display-4">
+      {% trans 'Project Logs' as title_text %} {{ title_text | upper }}
+    </h1>
+    <p class="text-center">"We are perfectionist with deadlines"</p>
+    <p class="text-center"> Last Updated : 15 Mei 2020</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="table-responsive">
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>Todo</th>
+                    <th>Team</th>
+                    <th>Effort</th>
+                    <th>Date Start</th>
+                    <th>Date End</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan=3>
+                        Project taken down, under review (Unfortunately).
+                    </td>
+                    <td>
+                        15 Mei 2020
+                    </td>
+                    <td>
+                        15 Mei 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=3>We've moved this log to open project management system.</td>
+                    <td>
+                        18 April 2020
+                    </td>
+                    <td>
+                        18 April 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Documentation preparation:
+                        <ul>
+                            <li>Branch "Doc feature init"</li>
+                            <li>Doc Framework (MKDoc) setup</li>
+                            <li>Project brief summary</li>
+                            <li>Git Merge</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Harry Sabita, Nuril Ikhsan
+                    </td>
+                    <td>
+                        2 * 2
+                    </td>
+                    <td>
+                        16 April 2020
+                    </td>
+                    <td>
+                        16 April 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Software Engineering preparation:
+                        <ul>
+                            <li>Development environment setup</li>
+                            <li>Version Control inilization</li>
+                            <li>Framework and Dependencies installation</li>
+                            <li>Initial Commit</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Rama Runov, R. Sasri
+                    </td>
+                    <td>
+                        6 * 2
+                    </td>
+                    <td>
+                        16 April 2020
+                    </td>
+                    <td>
+                        16 April 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Information and Data Gathering Phase 1
+                    </td>
+                    <td>
+                        Harry Sabita, R. Sasri
+                    </td>
+                    <td>
+                        60 * 2
+                    </td>
+                    <td>
+                        16 April 2020
+                    </td>
+                    <td>
+                        30 April 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Inisialisasi Project Meetup
+                    </td>
+                    <td>
+                        Harry Sabita, R. Sasri, Novita Anggraini
+                    </td>
+                    <td>
+                        8 * 3
+                    </td>
+                    <td>
+                        13 April 2020
+                    </td>
+                    <td>
+                        15 April 2020
+                    </td>
+                    <td>
+                        Complete
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

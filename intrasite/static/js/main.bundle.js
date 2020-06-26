@@ -81,56 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./intrasite/sources/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./sources/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./intrasite/sources/img/academic_logo.svg":
-/*!*************************************************!*\
-  !*** ./intrasite/sources/img/academic_logo.svg ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../fonts/academic_logo.svg\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/academic_logo.svg?");
-
-/***/ }),
-
-/***/ "./intrasite/sources/img/logo.png":
-/*!****************************************!*\
-  !*** ./intrasite/sources/img/logo.png ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../img/logo.png\");\n\n//# sourceURL=webpack:///./intrasite/sources/img/logo.png?");
-
-/***/ }),
-
-/***/ "./intrasite/sources/index.js":
-/*!************************************!*\
-  !*** ./intrasite/sources/index.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("// SCSS or SASS here\n__webpack_require__(/*! ./scss/main.scss */ \"./intrasite/sources/scss/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./intrasite/sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./intrasite/sources/img/academic_logo.svg\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./intrasite/sources/index.js?");
-
-/***/ }),
-
-/***/ "./intrasite/sources/scss/main.scss":
-/*!******************************************!*\
-  !*** ./intrasite/sources/scss/main.scss ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./intrasite/sources/scss/main.scss?");
-
-/***/ }),
 
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
@@ -174,6 +128,64 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(f
 /***/ (function(module, exports) {
 
 eval("var g; // This works in non-strict mode\n\ng = function () {\n  return this;\n}();\n\ntry {\n  // This works if eval is allowed (see CSP)\n  g = g || new Function(\"return this\")();\n} catch (e) {\n  // This works if the window reference is available\n  if (typeof window === \"object\") g = window;\n} // g can still be undefined, but nothing to do about it...\n// We return undefined, instead of nothing here, so it's\n// easier to handle this case. if(!global) { ...}\n\n\nmodule.exports = g;\n\n//# sourceURL=webpack:///(webpack)/buildin/global.js?");
+
+/***/ }),
+
+/***/ "./sources/img/academic_logo.svg":
+/*!***************************************!*\
+  !*** ./sources/img/academic_logo.svg ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../fonts/academic_logo.svg\");\n\n//# sourceURL=webpack:///./sources/img/academic_logo.svg?");
+
+/***/ }),
+
+/***/ "./sources/img/favicon.ico":
+/*!*********************************!*\
+  !*** ./sources/img/favicon.ico ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../img/favicon.ico\");\n\n//# sourceURL=webpack:///./sources/img/favicon.ico?");
+
+/***/ }),
+
+/***/ "./sources/img/logo.png":
+/*!******************************!*\
+  !*** ./sources/img/logo.png ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../img/logo.png\");\n\n//# sourceURL=webpack:///./sources/img/logo.png?");
+
+/***/ }),
+
+/***/ "./sources/index.js":
+/*!**************************!*\
+  !*** ./sources/index.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// SCSS or SASS here\n__webpack_require__(/*! ./scss/main.scss */ \"./sources/scss/main.scss\"); // Images\n\n\n__webpack_require__(/*! ./img/logo.png */ \"./sources/img/logo.png\");\n\n__webpack_require__(/*! ./img/academic_logo.svg */ \"./sources/img/academic_logo.svg\");\n\n__webpack_require__(/*! ./img/favicon.ico */ \"./sources/img/favicon.ico\"); // Fonts\n// Javascripts\n\n\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nwindow.$ = $;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n$(document).ready(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n});\n\n//# sourceURL=webpack:///./sources/index.js?");
+
+/***/ }),
+
+/***/ "./sources/scss/main.scss":
+/*!********************************!*\
+  !*** ./sources/scss/main.scss ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./sources/scss/main.scss?");
 
 /***/ })
 

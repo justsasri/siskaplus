@@ -6,7 +6,8 @@ from django.contrib.auth import get_user_model
 from ..core.resource_widgets import UUIDWidget
 from .models import (
     Student, Teacher, SchoolYear, ManagementUnit, Curriculum, Course, CurriculumCourse,
-    CourseType, CourseGroup, StudentScore, StudentConversion, StudentConversionItem
+    CourseType, CourseGroup, StudentScore, StudentConversion, StudentConversionItem,
+    Concentration
 )
 
 
@@ -129,7 +130,7 @@ class CurriculumCourseResource(ModelResource):
         column_name='konsentrasi',
         attribute='concentration',
         widget=widgets.ManyToManyWidget(
-            Course, separator=',', field='code'))
+            Concentration, separator=',', field='code'))
     sks_graduate = Field(
         column_name='min_sks_lulus',
         attribute='sks_graduate')

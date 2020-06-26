@@ -1,1 +1,0 @@
-from .academic import SchoolYearSerializer
